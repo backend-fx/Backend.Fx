@@ -19,8 +19,8 @@ class Build : NukeBuild
 
     readonly string MygetApiKey = Environment.GetEnvironmentVariable("MYGET_APIKEY");
 
-    readonly string MygetFeedUrl = Environment.GetEnvironmentVariable("MYGET_FEED_URL") ??
-                                   "https://www.myget.org/F/marcwittke/api/v3/index.json";
+    readonly string MygetFeedUrl = 
+        Environment.GetEnvironmentVariable("MYGET_FEED_URL") ?? "https://www.myget.org/F/marcwittke/api/v3/index.json";
 
     readonly string NugetApiKey = Environment.GetEnvironmentVariable("NUGET_APIKEY");
 
