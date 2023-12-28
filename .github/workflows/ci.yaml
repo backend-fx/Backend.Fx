@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: nuke build
-        run: ./src/build.sh
+        run: ./build.sh
         env:
             MYGET_APIKEY: ${{ secrets.MYGET_APIKEY }}
             NUGET_APIKEY: ${{ secrets.NUGET_APIKEY }}
