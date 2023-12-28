@@ -65,19 +65,19 @@ namespace Backend.Fx.Exceptions
             get { return _dictionaryImplementation.Values.Select(errors => errors.ToArray()); }
         }
 
-        internal Errors Add(string errorMessage)
+        public Errors Add(string errorMessage)
         {
             Add(GenericErrorKey, errorMessage);
             return this;
         }
 
-        internal Errors Add(IEnumerable<string> errorMessages)
+        public Errors Add(IEnumerable<string> errorMessages)
         {
             Add(GenericErrorKey, errorMessages);
             return this;
         }
 
-        internal Errors Add(string key, IEnumerable<string> errorMessages)
+        public Errors Add(string key, IEnumerable<string> errorMessages)
         {
             if (!_dictionaryImplementation.ContainsKey(key))
             {
@@ -91,7 +91,7 @@ namespace Backend.Fx.Exceptions
             return this;
         }
 
-        internal Errors Add(string key, string error)
+        public Errors Add(string key, string error)
         {
             if (!_dictionaryImplementation.ContainsKey(key))
             {
