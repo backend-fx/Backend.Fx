@@ -1,5 +1,4 @@
-﻿using Backend.Fx.Domain;
-using Backend.Fx.Exceptions;
+﻿using Backend.Fx.Exceptions;
 using JetBrains.Annotations;
 using Xunit;
 
@@ -64,7 +63,7 @@ namespace Backend.Fx.Tests.Exceptions
         }
 
         [UsedImplicitly]
-        private class SomeEntity : IAggregateRoot<int>
+        private class SomeEntity
         {
             [UsedImplicitly]
             public int Id { get; }
