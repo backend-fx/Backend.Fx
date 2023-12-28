@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Fx", "Backend.Fx\Backend.Fx.csproj", "{E2C417EC-3FA5-4931-93F5-A0A20098F1DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Fx", "src\Backend.Fx\Backend.Fx.csproj", "{E2C417EC-3FA5-4931-93F5-A0A20098F1DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Fx.Tests", "Backend.Fx.Tests\Backend.Fx.Tests.csproj", "{99A4E87D-459C-47B0-8368-B6DD2353325F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Fx.Tests", "src\Backend.Fx.Tests\Backend.Fx.Tests.csproj", "{99A4E87D-459C-47B0-8368-B6DD2353325F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "..\build\_build.csproj", "{259A30DB-EEEC-4C72-8172-2567FE83BF08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{259A30DB-EEEC-4C72-8172-2567FE83BF08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
