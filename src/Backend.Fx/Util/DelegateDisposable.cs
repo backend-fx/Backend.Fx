@@ -1,5 +1,4 @@
 using System;
-using JetBrains.Annotations;
 
 namespace Backend.Fx.Util
 {
@@ -7,7 +6,7 @@ namespace Backend.Fx.Util
     {
         private readonly Action _onDisposal;
 
-        public DelegateDisposable([NotNull] Action onDisposal)
+        public DelegateDisposable(Action onDisposal)
         {
             _onDisposal = onDisposal ?? throw new ArgumentNullException(nameof(onDisposal));
         }

@@ -49,7 +49,7 @@ namespace Backend.Fx.Util
             return detailedTypeName;
         }
         
-        public static bool IsOpenGeneric(this Type t)
+        public static bool IsOpenGeneric(this Type? t)
         {
             if (t == null) return false;
             if (t.IsGenericParameter) return true;

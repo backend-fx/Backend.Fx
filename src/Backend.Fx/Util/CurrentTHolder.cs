@@ -22,7 +22,7 @@ namespace Backend.Fx.Util
     public abstract class CurrentTHolder<T> : ICurrentTHolder<T>
     {
         private readonly ILogger _logger = Log.Create<CurrentTHolder<T>>();
-        private T _current;
+        private T? _current;
 
         protected CurrentTHolder()
         { }
@@ -61,6 +61,6 @@ namespace Backend.Fx.Util
 
         public abstract T ProvideInstance();
 
-        protected abstract string Describe(T instance);
+        protected abstract string Describe(T? instance);
     }
 }

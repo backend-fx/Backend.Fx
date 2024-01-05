@@ -9,7 +9,7 @@ namespace Backend.Fx.Util
     {
         private sealed class ReadLockToken : IDisposable
         {
-            private ReaderWriterLockSlim _sync;
+            private ReaderWriterLockSlim? _sync;
 
             public ReadLockToken(ReaderWriterLockSlim sync)
             {
@@ -29,7 +29,7 @@ namespace Backend.Fx.Util
 
         private sealed class WriteLockToken : IDisposable
         {
-            private ReaderWriterLockSlim _sync;
+            private ReaderWriterLockSlim? _sync;
 
             public WriteLockToken(ReaderWriterLockSlim sync)
             {

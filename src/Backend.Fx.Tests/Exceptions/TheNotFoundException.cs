@@ -25,6 +25,7 @@ namespace Backend.Fx.Tests.Exceptions
         [UsedImplicitly]
         private class SomeEntity(int id)
         {
+            [UsedImplicitly]
             public int Id { get; } = id;
         }
     }

@@ -5,9 +5,9 @@ namespace Backend.Fx.Exceptions
     [PublicAPI]
     public class NotFoundException : ClientException
     {
-        public string EntityName { get; }
+        public string? EntityName { get; }
 
-        public object Id { get; }
+        public object? Id { get; }
 
         public NotFoundException()
             : base("Not found.")

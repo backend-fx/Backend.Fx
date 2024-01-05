@@ -9,9 +9,9 @@ public class TheTooManyRequestsException
     [Fact]
     public void CanBeInstantiated()
     {
-        var exception1 = new TooManyRequestsException(5);
-        var exception2 = new TooManyRequestsException(5, "With a message");
-        var exception3 = new TooManyRequestsException(5, "With a message and an inner", new Exception());
+        var unused1 = new TooManyRequestsException(5);
+        var unused2 = new TooManyRequestsException(5, "With a message");
+        var unused3 = new TooManyRequestsException(5, "With a message and an inner", new Exception());
     }
 
     [Fact]

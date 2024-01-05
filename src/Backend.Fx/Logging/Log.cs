@@ -15,7 +15,7 @@ namespace Backend.Fx.Logging
     {
         private static ILoggerFactory _loggerFactory = new NullLoggerFactory();
 
-        private static readonly AsyncLocal<ILoggerFactory> AsyncLocalLoggerFactory = new();
+        private static readonly AsyncLocal<ILoggerFactory?> AsyncLocalLoggerFactory = new();
 
         public static void Initialize(ILoggerFactory loggerFactory)
         {
@@ -34,12 +34,12 @@ namespace Backend.Fx.Logging
 
         public static ILogger Create<T>()
         {
-            return LoggerFactory.CreateLogger(typeof(T).FullName);
+            return LoggerFactory.CreateLogger(typeof(T).FullName ?? typeof(T).Name);
         }
 
         public static ILogger Create(Type t)
         {
-            return LoggerFactory.CreateLogger(t.FullName);
+            return LoggerFactory.CreateLogger(t.FullName ?? t.Name);
         }
 
         public static ILogger Create(string category)

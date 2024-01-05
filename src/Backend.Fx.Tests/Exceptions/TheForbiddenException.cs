@@ -9,8 +9,8 @@ public class TheForbiddenException
     [Fact]
     public void CanBeInstantiated()
     {
-        var exception1 = new ForbiddenException();
-        var exception2 = new ForbiddenException("With a message");
-        var exception3 = new ForbiddenException("With a message and an inner", new Exception());
+        var unused1 = new ForbiddenException();
+        var unused2 = new ForbiddenException("With a message");
+        var unused3 = new ForbiddenException("With a message and an inner", new Exception());
     }
 }

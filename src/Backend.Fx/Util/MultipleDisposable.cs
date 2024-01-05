@@ -17,7 +17,7 @@ namespace Backend.Fx.Util
         {
             foreach (IDisposable disposable in _disposables)
             {
-                disposable?.Dispose();
+                disposable.Dispose();
             }
         }
     }
