@@ -14,6 +14,8 @@ namespace Backend.Fx.Util
         T Current { get; }
 
         void ReplaceCurrent(T newCurrentInstance);
+        
+        void ClearCurrent();
 
         T ProvideInstance();
     }
@@ -54,13 +56,29 @@ namespace Backend.Fx.Util
             _logger.LogDebug(
                 "Replacing current instance of {HeldTypename} ({HeldInstanceDescription}) with another instance ({NewInstanceDescription})",
                 typeof(T).Name,
-                Describe(Current),
-                Describe(newCurrentInstance));
+                DescribeSafe(Current),
+                DescribeSafe(newCurrentInstance));
             _current = newCurrentInstance;
+        }
+
+        public void ClearCurrent()
+        {
+            if (Equals(_current, null)) return;
+
+            _logger.LogDebug(
+                "Clearing current instance of {HeldTypename} ({HeldInstanceDescription})",
+                typeof(T).Name,
+                DescribeSafe(Current));
+            _current = default;
+        }
+
+        private string DescribeSafe(T? instance)
+        {
+            return instance == null ? "<NULL>" : Describe(instance);   
         }
 
         public abstract T ProvideInstance();
 
-        protected abstract string Describe(T? instance);
+        protected abstract string Describe(T instance);
     }
 }
