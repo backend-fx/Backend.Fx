@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,7 @@ namespace Backend.Fx.Exceptions
         public Errors(IDictionary<string, string[]> dictionary) : this(null, dictionary)
         { }
         
-        public Errors(string genericError, IDictionary<string, string[]> dictionary = null)
+        public Errors(string? genericError, IDictionary<string, string[]>? dictionary = null)
         {
             if (genericError != null)
             {
@@ -46,13 +47,13 @@ namespace Backend.Fx.Exceptions
 
         public bool TryGetValue(string key, out string[] value)
         {
-            if (_dictionaryImplementation.TryGetValue(key, out List<string> errors))
+            if (_dictionaryImplementation.TryGetValue(key, out var errors))
             {
                 value = errors.ToArray();
                 return true;
             }
 
-            value = null;
+            value = Array.Empty<string>();
             return false;
         }
 

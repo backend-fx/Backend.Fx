@@ -48,7 +48,7 @@ namespace Backend.Fx.Exceptions
                                  ? exceptionType
                                  : exceptionType + ": " + Message;
 
-            string innerException = InnerException != null
+            string? innerException = InnerException != null
                                         ? " ---> "
                                           + InnerException
                                           + Environment.NewLine

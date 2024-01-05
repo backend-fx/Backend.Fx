@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -12,24 +11,29 @@ namespace Backend.Fx.Hacking
     {
         public static void SetPrivate<T, TValue>(this T instance, Expression<Func<T, TValue>> propertyExpression, TValue value)
         {
+            if (instance == null)
+            {
+                throw new InvalidOperationException("Cannot set a private property value on a null reference");
+            }
+            
             instance.GetType().GetTypeInfo().GetDeclaredProperty(GetName(propertyExpression)).SetValue(instance, value, null);
         }
 
         private static string GetName<T, TValue>(Expression<Func<T, TValue>> exp)
         {
-            if (exp.Body is not MemberExpression body)
+            return exp.Body switch
             {
-                var unaryExpression = (UnaryExpression) exp.Body;
-                body = unaryExpression.Operand as MemberExpression;
-            }
-
-            Debug.Assert(body != null, "body != null");
-            return body.Member.Name;
+                MemberExpression memberExpression => memberExpression.Member.Name,
+                MethodCallExpression methodCallExpression => methodCallExpression.Method.Name,
+                UnaryExpression { Operand: MemberExpression operand } => operand.Member.Name,
+                ConstantExpression constantExpression => constantExpression.Value.ToString(),
+                _ => throw new ArgumentException("Expression type not supported")
+            };
         }
         
         public static T CreateInstanceFromPrivateDefaultConstructor<T>()
         {
-            ConstructorInfo constructor = typeof(T).GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance).SingleOrDefault(ci => ci.GetParameters().Length == 0);
+            var constructor = typeof(T).GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance).SingleOrDefault(ci => ci.GetParameters().Length == 0);
             if (constructor == null)
             {
                 throw new InvalidOperationException($"No private default constructor found in {typeof(T).Name}");

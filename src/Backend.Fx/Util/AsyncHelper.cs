@@ -40,7 +40,7 @@ namespace Backend.Fx.Util
                     {
                         exclusiveSynchronizationContext.EndMessageLoop();
                     }
-                }, null);
+                }, new object());
                 exclusiveSynchronizationContext.BeginMessageLoop();
             }
             finally
@@ -55,7 +55,7 @@ namespace Backend.Fx.Util
         /// <typeparam name="T">Return Type</typeparam>
         /// <param name="task">TaskTask&lt;T&gt; method to execute</param>
         /// <returns></returns>
-        public static T RunSync<T>(Func<Task<T>> task)
+        public static T? RunSync<T>(Func<Task<T>> task)
         {
             var ret = default(T);
             SynchronizationContext oldContext = SynchronizationContext.Current;
@@ -79,7 +79,7 @@ namespace Backend.Fx.Util
                     {
                         exclusiveSynchronizationContext.EndMessageLoop();
                     }
-                }, null);
+                }, new object());
                 exclusiveSynchronizationContext.BeginMessageLoop();
             }
             finally
@@ -93,7 +93,7 @@ namespace Backend.Fx.Util
         private class ExclusiveSynchronizationContext : SynchronizationContext
         {
             private bool _done;
-            public Exception InnerException { private get; set; }
+            public Exception? InnerException { private get; set; }
             private readonly AutoResetEvent _workItemsWaiting = new(false);
             private readonly Queue<Tuple<SendOrPostCallback, object>> _items = new();
 
@@ -114,14 +114,14 @@ namespace Backend.Fx.Util
 
             public void EndMessageLoop()
             {
-                Post(_ => _done = true, null);
+                Post(_ => _done = true, new object());
             }
 
             public void BeginMessageLoop()
             {
                 while (!_done)
                 {
-                    Tuple<SendOrPostCallback, object> task = null;
+                    Tuple<SendOrPostCallback, object>? task = null;
                     lock (_items)
                     {
                         if (_items.Count > 0)
