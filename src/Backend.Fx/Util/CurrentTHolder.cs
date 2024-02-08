@@ -42,7 +42,7 @@ namespace Backend.Fx.Util
                 {
                     _logger.LogDebug("Providing initial {HeldTypeName} instance", typeof(T).Name);
                     _current = ProvideInstance();
-                    _logger.LogDebug("Initial instance of {HeldTypeName} is: {HeldInstanceDescription}", typeof(T).Name, Describe(_current));
+                    _logger.LogDebug("Initial instance of {HeldTypeName} is: {HeldInstanceDescription}", typeof(T).Name, DescribeSafe(_current));
                 }
 
                 return _current;
@@ -56,7 +56,7 @@ namespace Backend.Fx.Util
             _logger.LogDebug(
                 "Replacing current instance of {HeldTypename} ({HeldInstanceDescription}) with another instance ({NewInstanceDescription})",
                 typeof(T).Name,
-                DescribeSafe(Current),
+                DescribeSafe(_current),
                 DescribeSafe(newCurrentInstance));
             _current = newCurrentInstance;
         }
@@ -68,7 +68,7 @@ namespace Backend.Fx.Util
             _logger.LogDebug(
                 "Clearing current instance of {HeldTypename} ({HeldInstanceDescription})",
                 typeof(T).Name,
-                DescribeSafe(Current));
+                DescribeSafe(_current));
             _current = default;
         }
 
