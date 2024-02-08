@@ -36,13 +36,7 @@ namespace Backend.Fx.Exceptions
             }
         }
 
-        public void Dispose()
-        {
-            if (_clientException.HasErrors())
-            {
-                throw _clientException;
-            }
-        }
+        public void Dispose() => CheckAndMaybeThrowNow();
 
         public void AddIf(bool condition, string error)
         {
@@ -57,6 +51,14 @@ namespace Backend.Fx.Exceptions
             if (condition)
             {
                 _clientException.Errors.Add(key, error);
+            }
+        }
+
+        public void CheckAndMaybeThrowNow()
+        {
+            if (_clientException.HasErrors())
+            {
+                throw _clientException;
             }
         }
     }
