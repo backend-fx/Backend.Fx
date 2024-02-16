@@ -1,4 +1,5 @@
-﻿using Backend.Fx.Logging;
+﻿using System;
+using Backend.Fx.Logging;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
@@ -69,6 +70,16 @@ namespace Backend.Fx.Util
                 "Clearing current instance of {HeldTypename} ({HeldInstanceDescription})",
                 typeof(T).Name,
                 DescribeSafe(_current));
+            
+            if (_current is IDisposable disposable)
+            {
+                _logger.LogDebug(
+                    "Disposing current instance of {HeldTypename} ({HeldInstanceDescription})",
+                    typeof(T).Name,
+                    DescribeSafe(_current));
+                disposable.Dispose();
+            }
+            
             _current = default;
         }
 
