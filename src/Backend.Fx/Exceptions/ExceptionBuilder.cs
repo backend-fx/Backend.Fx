@@ -6,17 +6,22 @@ namespace Backend.Fx.Exceptions
     [PublicAPI]
     public interface IExceptionBuilder : IDisposable
     {
+        bool HasError { get; }
         void Add(string error);
         void Add(string key, string error);
         void AddNotFoundWhenNull<T>(object id, T t);
         void AddIf(bool condition, string error);
         void AddIf(string key, bool condition, string error);
+        void CheckAndMaybeThrowNow();
+        Errors GetErrors();
     }
 
     [PublicAPI]
     public class ExceptionBuilder<TEx> : IExceptionBuilder where TEx : ClientException, new()
     {
         private readonly TEx _clientException = new();
+
+        public bool HasError => _clientException.HasErrors();
 
         public void Add(string error)
         {
@@ -60,6 +65,11 @@ namespace Backend.Fx.Exceptions
             {
                 throw _clientException;
             }
+        }
+
+        public Errors GetErrors()
+        {
+            return _clientException.Errors;
         }
     }
 }
