@@ -10,7 +10,7 @@ namespace Backend.Fx.Tests.Exceptions
         public void AddsExceptionWhenAggregateIsNull()
         {
             IExceptionBuilder sut = UnprocessableException.UseBuilder();
-            sut.AddNotFoundWhenNull<SomeEntity>(1111, null!);
+            sut.AddIfNull(null!, "is null");
             Assert.Throws<UnprocessableException>(() => sut.Dispose());
         }
 
@@ -18,7 +18,7 @@ namespace Backend.Fx.Tests.Exceptions
         public void AddsNoExceptionWhenAggregateIsNotNull()
         {
             IExceptionBuilder sut = UnprocessableException.UseBuilder();
-            sut.AddNotFoundWhenNull(1111, new SomeEntity());
+            sut.AddIfNull(new object(), "is null");
             sut.Dispose();
         }
 

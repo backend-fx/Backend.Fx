@@ -9,9 +9,10 @@ namespace Backend.Fx.Exceptions
         bool HasError { get; }
         void Add(string error);
         void Add(string key, string error);
-        void AddNotFoundWhenNull<T>(object id, T t);
         void AddIf(bool condition, string error);
         void AddIf(string key, bool condition, string error);
+        void AddIfNull(object toCheck, string error);
+        void AddIfNull(object toCheck, string key, string error);
         void CheckAndMaybeThrowNow();
         Errors GetErrors();
     }
@@ -33,11 +34,19 @@ namespace Backend.Fx.Exceptions
             _clientException.Errors.Add(key, error);
         }
 
-        public void AddNotFoundWhenNull<T>(object id, T t)
+        public void AddIfNull(object? toCheck, string error)
         {
-            if (t == null)
+            if (toCheck == null)
             {
-                _clientException.Errors.Add("NotFound", $"{typeof(T).Name} [{id}] not found");
+                Add(error);
+            }
+        }
+
+        public void AddIfNull(object? toCheck, string key, string error)
+        {
+            if (toCheck == null)
+            {
+                Add(key, error);
             }
         }
 
