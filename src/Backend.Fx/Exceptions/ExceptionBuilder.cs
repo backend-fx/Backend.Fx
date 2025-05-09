@@ -68,6 +68,45 @@ namespace Backend.Fx.Exceptions
             }
         }
 
+        public T Collect<T>(Func<T> func)
+        {
+            try
+            {
+                return func();
+            }
+            catch (Exception ex)
+            {
+                Add(ex.Message);
+                return default!;
+            }
+        }
+
+        public T Collect<T>(string key, Func<T> func)
+        {
+            try
+            {
+                return func();
+            }
+            catch (Exception ex)
+            {
+                Add(key, ex.Message);
+                return default!;
+            }
+        }
+
+        public T CollectError<T>(string key, Func<T> func, Func<Exception, string> provideErrorMessage)
+        {
+            try
+            {
+                return func();
+            }
+            catch (Exception ex)
+            {
+                Add(key, provideErrorMessage.Invoke(ex));
+                return default!;
+            }
+        }
+
         public void CheckAndMaybeThrowNow()
         {
             if (_clientException.HasErrors())
