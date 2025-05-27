@@ -1,4 +1,5 @@
-﻿using Backend.Fx.Exceptions;
+﻿using System;
+using Backend.Fx.Exceptions;
 using JetBrains.Annotations;
 using Xunit;
 
@@ -37,7 +38,7 @@ public class TheUnprocessableExceptionBuilder
         sut.AddIf(true, "something is broken");
         Assert.Throws<UnprocessableException>(() => sut.Dispose());
     }
-        
+
     [Fact]
     public void ThrowsExceptionWhenAddingConditionalKeyedError()
     {
@@ -53,7 +54,7 @@ public class TheUnprocessableExceptionBuilder
         sut.Add("something is broken");
         Assert.Throws<UnprocessableException>(() => sut.Dispose());
     }
-        
+
     [Fact]
     public void ThrowsExceptionWhenAddingKeyedError()
     {
@@ -62,10 +63,18 @@ public class TheUnprocessableExceptionBuilder
         Assert.Throws<UnprocessableException>(() => sut.Dispose());
     }
 
+    [Fact]
+    public void ThrowsExceptionWhenTryThrows()
+    {
+        int zero = 0;
+        IExceptionBuilder sut = UnprocessableException.UseBuilder();
+        sut.Try(() => 6 / zero);
+        Assert.Throws<UnprocessableException>(() => sut.Dispose());
+    }
+
     [UsedImplicitly]
     private class SomeEntity
     {
-        [UsedImplicitly]
-        public int Id { get; }
+        [UsedImplicitly] public int Id { get; }
     }
 }
