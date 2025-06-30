@@ -48,22 +48,22 @@ namespace Backend.Fx.Exceptions
         /// <summary>
         /// Returns the result of the provided function, or collects a general error based on the exception message if an exception occurs.
         /// </summary>
-        T Try<T>(Func<T> func);
+        T? Try<T>(Func<T> func);
 
         /// <summary>
         /// Returns the result of the provided function, or collects a general error. A function must be provided to generate the error message based on the exception that occurred.
         /// </summary>
-        T Try<T>(Func<T> func, Func<Exception, string> provideErrorMessage);
+        T? Try<T>(Func<T> func, Func<Exception, string> provideErrorMessage);
 
         /// <summary>
         /// Returns the result of the provided function, or collects an error message related to a specific argument value identified by the given key based on the exception message if an exception occurs.
         /// </summary>
-        T Try<T>(string key, Func<T> func);
+        T? Try<T>(string key, Func<T> func);
 
         /// <summary>
         /// Returns the result of the provided function, or collects an error message related to a specific argument value identified by the given key. A function must be provided to generate the error message based on the exception that occurred.
         /// </summary>
-        T Try<T>(string key, Func<T> func, Func<Exception, string> provideErrorMessage);
+        T? Try<T>(string key, Func<T> func, Func<Exception, string> provideErrorMessage);
 
         /// <summary>
         /// Checks if there are any errors collected so far and throws the <see cref="ClientException"/> if there are.
@@ -127,24 +127,42 @@ namespace Backend.Fx.Exceptions
             }
         }
 
-        public T Try<T>(Func<T> func)
+        public T? Try<T>(Func<T> func)
         {
             try
             {
                 return func();
+            }
+            catch (ClientException ex)
+            {
+                foreach (var error in ex.Errors)
+                {
+                    _clientException.Errors.Add(error.Key, error.Value);
+                }
+                
+                return default;
             }
             catch (Exception ex)
             {
                 Add(ex.Message);
-                return default!;
+                return default;
             }
         }
 
-        public T Try<T>(Func<T> func, Func<Exception, string> provideErrorMessage)
+        public T? Try<T>(Func<T> func, Func<Exception, string> provideErrorMessage)
         {
             try
             {
                 return func();
+            }
+            catch (ClientException ex)
+            {
+                foreach (var error in ex.Errors)
+                {
+                    _clientException.Errors.Add(error.Key, error.Value);
+                }
+                
+                return default;
             }
             catch (Exception ex)
             {
@@ -159,29 +177,47 @@ namespace Backend.Fx.Exceptions
                         $"Error generation failed! Original exception message: [{ex.Message}]. Error generation exception message: [{innerEx.Message}]");
                 }
 
-                return default!;
+                return default;
             }
         }
 
 
-        public T Try<T>(string key, Func<T> func)
+        public T? Try<T>(string key, Func<T> func)
         {
             try
             {
                 return func();
+            }
+            catch (ClientException ex)
+            {
+                foreach (var error in ex.Errors)
+                {
+                    _clientException.Errors.Add(error.Key, error.Value);
+                }
+                
+                return default;
             }
             catch (Exception ex)
             {
                 Add(key, ex.Message);
-                return default!;
+                return default;
             }
         }
 
-        public T Try<T>(string key, Func<T> func, Func<Exception, string> provideErrorMessage)
+        public T? Try<T>(string key, Func<T> func, Func<Exception, string> provideErrorMessage)
         {
             try
             {
                 return func();
+            }
+            catch (ClientException ex)
+            {
+                foreach (var error in ex.Errors)
+                {
+                    _clientException.Errors.Add(error.Key, error.Value);
+                }
+                
+                return default;
             }
             catch (Exception ex)
             {
@@ -197,7 +233,7 @@ namespace Backend.Fx.Exceptions
                         $"Error generation failed! Original exception message: [{ex.Message}]. Error generation exception message: [{innerEx.Message}]");
                 }
 
-                return default!;
+                return default;
             }
         }
 
