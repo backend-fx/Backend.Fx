@@ -80,13 +80,13 @@ namespace Backend.Fx.Exceptions
 
         public Errors Add(string key, IEnumerable<string> errorMessages)
         {
-            if (!_dictionaryImplementation.ContainsKey(key))
+            if (!_dictionaryImplementation.TryGetValue(key, out var value))
             {
                 _dictionaryImplementation[key] = new List<string>(errorMessages);
             }
             else
             {
-                _dictionaryImplementation[key].AddRange(errorMessages);
+                value.AddRange(errorMessages);
             }
 
             return this;

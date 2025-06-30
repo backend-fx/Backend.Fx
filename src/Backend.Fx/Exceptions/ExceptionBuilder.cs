@@ -133,6 +133,15 @@ namespace Backend.Fx.Exceptions
             {
                 return func();
             }
+            catch (ClientException ex)
+            {
+                foreach (var error in ex.Errors)
+                {
+                    _clientException.Errors.Add(error.Key, error.Value);
+                }
+                
+                return default;
+            }
             catch (Exception ex)
             {
                 Add(ex.Message);
