@@ -155,6 +155,15 @@ namespace Backend.Fx.Exceptions
             {
                 return func();
             }
+            catch (ClientException ex)
+            {
+                foreach (var error in ex.Errors)
+                {
+                    _clientException.Errors.Add(error.Key, error.Value);
+                }
+                
+                return default;
+            }
             catch (Exception ex)
             {
                 try
@@ -179,6 +188,15 @@ namespace Backend.Fx.Exceptions
             {
                 return func();
             }
+            catch (ClientException ex)
+            {
+                foreach (var error in ex.Errors)
+                {
+                    _clientException.Errors.Add(error.Key, error.Value);
+                }
+                
+                return default;
+            }
             catch (Exception ex)
             {
                 Add(key, ex.Message);
@@ -191,6 +209,15 @@ namespace Backend.Fx.Exceptions
             try
             {
                 return func();
+            }
+            catch (ClientException ex)
+            {
+                foreach (var error in ex.Errors)
+                {
+                    _clientException.Errors.Add(error.Key, error.Value);
+                }
+                
+                return default;
             }
             catch (Exception ex)
             {
