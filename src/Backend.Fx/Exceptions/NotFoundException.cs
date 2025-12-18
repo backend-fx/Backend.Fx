@@ -21,6 +21,8 @@ public class NotFoundException : ClientException
         Id = id;
     }
 
+    public override string Rfc7807Title => "Not Found";
+
     /// <summary>
     /// Used to build a <see cref="NotFoundException"/> with multiple possible error messages. The builder will throw on disposal
     /// when at least one error was added. Using the AddIf methods is quite comfortable when there are several criteria to be validated
@@ -30,6 +32,8 @@ public class NotFoundException : ClientException
     {
         return new ExceptionBuilder<NotFoundException>();
     }
+    
+    public override int? Rfc7807Status => 404;
 }
 
 public class NotFoundException<TEntity> : NotFoundException

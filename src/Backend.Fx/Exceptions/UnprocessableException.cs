@@ -23,6 +23,10 @@ public class UnprocessableException : ClientException
     {
     }
 
+    public override string Rfc7807Title => "Unprocessable Entity";
+    
+    public override int? Rfc7807Status => 422;
+
     /// <summary>
     /// Used to build an <see cref="UnprocessableException"/> with multiple possible error messages. The builder will throw on disposal
     /// when at least one error was added. Using the AddIf methods is quite comfortable when there are several criteria to be validated

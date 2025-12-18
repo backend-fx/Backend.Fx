@@ -53,7 +53,7 @@ public class Errors : IReadOnlyDictionary<string, string[]>
             return true;
         }
 
-        value = Array.Empty<string>();
+        value = [];
         return false;
     }
 
@@ -96,7 +96,7 @@ public class Errors : IReadOnlyDictionary<string, string[]>
     {
         if (!_dictionaryImplementation.ContainsKey(key))
         {
-            _dictionaryImplementation[key] = new List<string>();
+            _dictionaryImplementation[key] = [];
         }
 
         _dictionaryImplementation[key].Add(error);
