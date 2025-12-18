@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 
-namespace Backend.Fx.Exceptions
-{
+namespace Backend.Fx.Exceptions;
+
     [PublicAPI]
     public class ClientException : Exception
     {
@@ -98,4 +98,3 @@ namespace Backend.Fx.Exceptions
             return clientException;
         }
     }
-}

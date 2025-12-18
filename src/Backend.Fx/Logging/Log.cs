@@ -5,65 +5,64 @@ using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 
-namespace Backend.Fx.Logging
+namespace Backend.Fx.Logging;
+
+/// <summary>
+/// static class to keep an ILoggerFactory instance to use Microsoft.Extension.Logging without dependency injection
+/// </summary>
+[PublicAPI]
+public static class Log
 {
-    /// <summary>
-    /// static class to keep an ILoggerFactory instance to use Microsoft.Extension.Logging without dependency injection
-    /// </summary>
-    [PublicAPI]
-    public static class Log
+    private static ILoggerFactory _loggerFactory = new NullLoggerFactory();
+
+    private static readonly AsyncLocal<ILoggerFactory?> AsyncLocalLoggerFactory = new();
+
+    public static void Initialize(ILoggerFactory loggerFactory)
     {
-        private static ILoggerFactory _loggerFactory = new NullLoggerFactory();
+        _loggerFactory = loggerFactory;
+    }
 
-        private static readonly AsyncLocal<ILoggerFactory?> AsyncLocalLoggerFactory = new();
+    /// <summary>
+    /// Override the global, static ILoggerFactory in this async local scope. This can be done per web request or per test run
+    /// </summary>
+    /// <param name="loggerFactory"></param>
+    public static IDisposable InitAsyncLocal(ILoggerFactory loggerFactory)
+    {
+        AsyncLocalLoggerFactory.Value = loggerFactory;
+        return new DelegateDisposable(() => AsyncLocalLoggerFactory.Value = null);
+    }
 
-        public static void Initialize(ILoggerFactory loggerFactory)
+    public static ILogger Create<T>()
+    {
+        return LoggerFactory.CreateLogger(typeof(T).FullName ?? typeof(T).Name);
+    }
+
+    public static ILogger Create(Type t)
+    {
+        return LoggerFactory.CreateLogger(t.FullName ?? t.Name);
+    }
+
+    public static ILogger Create(string category)
+    {
+        return LoggerFactory.CreateLogger(category);
+    }
+
+    public static ILoggerFactory LoggerFactory { get; } = new MaybeAsyncLocalLoggerFactory();
+
+    private class MaybeAsyncLocalLoggerFactory : ILoggerFactory
+    {
+        public void Dispose()
         {
-            _loggerFactory = loggerFactory;
         }
 
-        /// <summary>
-        /// Override the global, static ILoggerFactory in this async local scope. This can be done per web request or per test run
-        /// </summary>
-        /// <param name="loggerFactory"></param>
-        public static IDisposable InitAsyncLocal(ILoggerFactory loggerFactory)
+        public ILogger CreateLogger(string categoryName)
         {
-            AsyncLocalLoggerFactory.Value = loggerFactory;
-            return new DelegateDisposable(() => AsyncLocalLoggerFactory.Value = null);
+            return (AsyncLocalLoggerFactory.Value ?? _loggerFactory).CreateLogger(categoryName);
         }
 
-        public static ILogger Create<T>()
+        public void AddProvider(ILoggerProvider provider)
         {
-            return LoggerFactory.CreateLogger(typeof(T).FullName ?? typeof(T).Name);
-        }
-
-        public static ILogger Create(Type t)
-        {
-            return LoggerFactory.CreateLogger(t.FullName ?? t.Name);
-        }
-
-        public static ILogger Create(string category)
-        {
-            return LoggerFactory.CreateLogger(category);
-        }
-
-        public static ILoggerFactory LoggerFactory { get; } = new MaybeAsyncLocalLoggerFactory();
-
-        private class MaybeAsyncLocalLoggerFactory : ILoggerFactory
-        {
-            public void Dispose()
-            {
-            }
-
-            public ILogger CreateLogger(string categoryName)
-            {
-                return (AsyncLocalLoggerFactory.Value ?? _loggerFactory).CreateLogger(categoryName);
-            }
-
-            public void AddProvider(ILoggerProvider provider)
-            {
-                (AsyncLocalLoggerFactory.Value ?? _loggerFactory).AddProvider(provider);
-            }
+            (AsyncLocalLoggerFactory.Value ?? _loggerFactory).AddProvider(provider);
         }
     }
 }
