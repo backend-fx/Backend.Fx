@@ -8,7 +8,7 @@ This library provides some global utility classes without any specific applicati
 
 ### Exceptions
 
-Backend.Fx provides a basic Exceptions that indicates a caller's fault: the `ClientException`. It is an implementation of the _Result Pattern_ and comes with a structure to transport various detailed errors that are intended to help the caller solving the problem. See the `Errors` type for details.
+Backend.Fx provides a basic Exceptions that indicates a caller's fault: the `ClientException`. It is an implementation of the [_Notification Pattern_](https://martinfowler.com/articles/replaceThrowWithNotification.html) and comes with a structure to transport various detailed errors that are intended to help the caller solving the problem. See the `Errors` type for details.
 
 #### Exception types
 
