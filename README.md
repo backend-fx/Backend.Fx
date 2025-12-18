@@ -31,8 +31,14 @@ Each implementation of `ClientException` can be used with the `ExceptionBuilder`
 using (var builder = UnprocessableException.UseBuilder())
 {
 
+    // collect validation errors
     builder.AddIf(model.Age < 18, "User must be adult");
-    builder.AddIfNull(someArgument, "Value is required")
+    builder.AddIfNull(someArgument, "Value is required");
+
+    // enjoy poor man's try pattern, e.g. when the type does not provide a `TryParse` method.
+    // any caught exception is converted to an error on the thrown UnprocessableException
+    ParsedValue = builder.Try(() => Value.Parse(argument));
+
 } // <-- the builder will throw on dispose when any error has been collected
 ```
 
