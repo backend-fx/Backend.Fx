@@ -60,6 +60,47 @@ namespace Backend.Fx.Exceptions;
         }
         
         /// <summary>
+        /// Provides an RFC7807 compliant title for the exception.
+        /// </summary>
+        public virtual string Rfc7807Title => "Bad Request";
+        
+        /// <summary>
+        /// Provides an RFC7807 compliant status code for the exception.
+        /// </summary>
+        public virtual int? Rfc7807Status => 400;
+    
+        /// <summary>
+        /// Provides an RFC7807 compliant detail for the exception. This will be the generic error, the first error, or
+        /// the Rfc7807Title of the exception in order of prevalence. 
+        /// </summary>
+        public string Rfc7807Detail
+        {
+            get
+            {
+                if (Errors.TryGetValue(Errors.GenericErrorKey, out var errors))
+                {
+                    return string.Join(". ", errors.Select(err => new string(err.TrimEnd(".").ToArray())));
+                }
+
+                if (Errors.Any())
+                {
+                    return string.Join(". ", Errors.First().Value.Select(err => new string(err.TrimEnd(".").ToArray())));
+                }
+
+                return Rfc7807Title;
+
+            }
+        }
+
+        /// <summary>
+        /// Provides the errors dictionary as an instance of `IDictionary{string, object}` that can be used in RFC7807's
+        /// ProblemDetail.Extensions property
+        /// </summary>
+        /// <returns></returns>
+        public IDictionary<string, object> Rfc7807ExtensionsDictionary
+            => Errors.ToDictionary(kvp => kvp.Key, kvp => (object) kvp.Value);
+
+        /// <summary>
         /// Used to build an <see cref="ClientException"/> with multiple possible error messages. The builder will throw on disposal
         /// when at least one error was added. Using the AddIf methods is quite comfortable when there are several criteria to be validated
         /// before executing a business case. 

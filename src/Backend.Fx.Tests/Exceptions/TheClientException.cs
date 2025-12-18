@@ -31,7 +31,7 @@ public class TheClientException
     public void AllowsAddingErrors()
     {
         var exception = new ClientException()
-            .AddErrors(new [] {"The first error message", "The second error message"});
+            .AddErrors(["The first error message", "The second error message"]);
 
         Assert.Contains(
             exception.Errors,
@@ -57,7 +57,7 @@ public class TheClientException
     public void AllowsAddingKeyedErrors()
     {
         var exception = new ClientException()
-            .AddErrors("key", new [] {"The first error message", "The second error message"});
+            .AddErrors("key", ["The first error message", "The second error message"]);
 
         Assert.Contains(
             exception.Errors,
@@ -73,7 +73,7 @@ public class TheClientException
     public void ContainsErrorsInToString()
     {
         var exception = new ClientException()
-            .AddErrors("key", new [] {"The first error message", "The second error message"});
+            .AddErrors("key", ["The first error message", "The second error message"]);
 
         string exToString = exception.ToString();
         Assert.Contains("Errors: 1", exToString);

@@ -25,4 +25,8 @@ public class TooManyRequestsException : ClientException
     }
 
     public int RetryAfter { get; }
+    
+    public override string Rfc7807Title => "Too Many Requests";
+    
+    public override int? Rfc7807Status => 429;
 }

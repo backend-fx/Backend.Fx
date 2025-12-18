@@ -22,4 +22,8 @@ public class ConflictedException : ClientException
         : base(message, innerException)
     {
     }
+
+    public override string Rfc7807Title => "Conflicted";
+    
+    public override int? Rfc7807Status => 409;
 }
