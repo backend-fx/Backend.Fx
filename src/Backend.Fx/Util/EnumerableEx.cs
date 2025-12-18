@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 
-namespace Backend.Fx.Util
+namespace Backend.Fx.Util;
+
+[PublicAPI]
+public static class EnumerableEx
 {
-    [PublicAPI]
-    public static class EnumerableEx
+    public static void ForAll<T>(this IEnumerable<T> enumerable, Action<T> action)
     {
-        public static void ForAll<T>(this IEnumerable<T> enumerable, Action<T> action)
+        foreach (T item in enumerable)
         {
-            foreach (T item in enumerable)
-            {
-                action(item);
-            }
+            action(item);
         }
     }
 }

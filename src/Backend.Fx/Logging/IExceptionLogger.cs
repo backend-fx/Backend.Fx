@@ -2,32 +2,31 @@
 using Backend.Fx.Exceptions;
 using Microsoft.Extensions.Logging;
 
-namespace Backend.Fx.Logging
+namespace Backend.Fx.Logging;
+
+public interface IExceptionLogger
 {
-    public interface IExceptionLogger
+    void LogException(Exception exception);
+}
+
+public class ExceptionLogger : IExceptionLogger
+{
+    private readonly ILogger _logger;
+
+    public ExceptionLogger(ILogger logger)
     {
-        void LogException(Exception exception);
+        _logger = logger;
     }
 
-    public class ExceptionLogger : IExceptionLogger
+    public void LogException(Exception exception)
     {
-        private readonly ILogger _logger;
-
-        public ExceptionLogger(ILogger logger)
+        if (exception is ClientException cex)
         {
-            _logger = logger;
+            _logger.LogWarning(cex, "Client Exception");
         }
-
-        public void LogException(Exception exception)
+        else
         {
-            if (exception is ClientException cex)
-            {
-                _logger.LogWarning(cex, "Client Exception");
-            }
-            else
-            {
-                _logger.LogError(exception, "Server Exception");
-            }
+            _logger.LogError(exception, "Server Exception");
         }
     }
 }
