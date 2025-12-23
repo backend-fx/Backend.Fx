@@ -25,7 +25,7 @@ public class UnprocessableException : ClientException
 
     public override string Rfc7807Title => "Unprocessable Entity";
     
-    public override int? Rfc7807Status => 422;
+    public override int Rfc7807Status => 422;
 
     /// <summary>
     /// Used to build an <see cref="UnprocessableException"/> with multiple possible error messages. The builder will throw on disposal

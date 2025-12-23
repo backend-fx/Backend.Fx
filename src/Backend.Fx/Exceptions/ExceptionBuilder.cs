@@ -46,17 +46,17 @@ public interface IExceptionBuilder : IDisposable
     void AddIf(string key, bool condition, string error);
 
     /// <summary>
-    /// Returns the result of the provided function, or collects a general error based on the exception message if an exception occurs.
+    /// Returns the result of the provided function or collects a general error based on the exception message if an exception occurs.
     /// </summary>
     T? Try<T>(Func<T> func);
 
     /// <summary>
-    /// Returns the result of the provided function, or collects a general error. A function must be provided to generate the error message based on the exception that occurred.
+    /// Returns the result of the provided function or collects a general error. A function must be provided to generate the error message based on the exception that occurred.
     /// </summary>
     T? Try<T>(Func<T> func, Func<Exception, string> provideErrorMessage);
 
     /// <summary>
-    /// Returns the result of the provided function, or collects an error message related to a specific argument value identified by the given key based on the exception message if an exception occurs.
+    /// Returns the result of the provided function or collects an error message related to a specific argument value identified by the given key based on the exception message if an exception occurs.
     /// </summary>
     T? Try<T>(string key, Func<T> func);
 

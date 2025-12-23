@@ -28,5 +28,5 @@ public class TooManyRequestsException : ClientException
     
     public override string Rfc7807Title => "Too Many Requests";
     
-    public override int? Rfc7807Status => 429;
+    public override int Rfc7807Status => 429;
 }
