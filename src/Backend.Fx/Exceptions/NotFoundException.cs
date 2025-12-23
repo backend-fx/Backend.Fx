@@ -33,7 +33,7 @@ public class NotFoundException : ClientException
         return new ExceptionBuilder<NotFoundException>();
     }
     
-    public override int? Rfc7807Status => 404;
+    public override int Rfc7807Status => 404;
 }
 
 public class NotFoundException<TEntity> : NotFoundException

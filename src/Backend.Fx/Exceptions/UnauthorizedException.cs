@@ -25,5 +25,5 @@ public class UnauthorizedException : ClientException
 
     public override string Rfc7807Title => "Unauthorized";
     
-    public override int? Rfc7807Status => 401;
+    public override int Rfc7807Status => 401;
 }

@@ -25,5 +25,5 @@ public class ForbiddenException : ClientException
 
     public override string Rfc7807Title => "Forbidden";
     
-    public override int? Rfc7807Status => 403;
+    public override int Rfc7807Status => 403;
 }

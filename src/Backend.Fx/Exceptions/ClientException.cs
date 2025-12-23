@@ -13,19 +13,17 @@ namespace Backend.Fx.Exceptions;
         {
         }
 
-        /// <param name="message">When using one of the middlewares in Backend.Fx.AspNetCore.ErrorHandling, the message is not sent
-        /// to the client to not provide internal details to an attacker. Write the exception message with a developer in mind, since
-        /// the application log will contain the message. To provide the user with functional feedback to correct their input, use
-        /// the AddError(s) overloads.</param>
+        /// <param name="message">Write the exception message with a developer in mind, since the application log
+        /// will contain the message. To provide the user with functional feedback to correct their input, use the
+        /// AddError(s) overloads.</param>
         public ClientException(string message)
             : base(message)
         {
         }
 
-        /// <param name="message">When using one of the middlewares in Backend.Fx.AspNetCore.ErrorHandling, the message is not sent
-        /// to the client to not provide internal details to an attacker. Write the exception message with a developer in mind, since
-        /// the application log will contain the message. To provide the user with functional feedback to correct their input, use
-        /// the AddError(s) overloads.</param>
+        /// <param name="message">Write the exception message with a developer in mind, since the application log
+        /// will contain the message. To provide the user with functional feedback to correct their input, use the
+        /// AddError(s) overloads.</param>
         /// <param name="innerException"></param>
         public ClientException(string message, Exception innerException)
             : base(message, innerException)
@@ -67,7 +65,7 @@ namespace Backend.Fx.Exceptions;
         /// <summary>
         /// Provides an RFC7807 compliant status code for the exception.
         /// </summary>
-        public virtual int? Rfc7807Status => 400;
+        public virtual int Rfc7807Status => 400;
     
         /// <summary>
         /// Provides an RFC7807 compliant detail for the exception. This will be the generic error, the first error, or
@@ -93,17 +91,17 @@ namespace Backend.Fx.Exceptions;
         }
 
         /// <summary>
-        /// Provides the errors dictionary as an instance of `IDictionary{string, object}` that can be used in RFC7807's
-        /// ProblemDetail.Extensions property
+        /// Provides the errors dictionary as an instance of <c>IDictionary&lt;string, object?&gt;</c> that can be
+        /// used in RFC7807's <c>ProblemDetail.Extensions</c> property
         /// </summary>
         /// <returns></returns>
-        public IDictionary<string, object> Rfc7807ExtensionsDictionary
-            => Errors.ToDictionary(kvp => kvp.Key, kvp => (object) kvp.Value);
+        public IDictionary<string, object?> Rfc7807ExtensionsDictionary
+            => Errors.ToDictionary(kvp => kvp.Key, object? (kvp) => kvp.Value);
 
         /// <summary>
-        /// Used to build an <see cref="ClientException"/> with multiple possible error messages. The builder will throw on disposal
-        /// when at least one error was added. Using the AddIf methods is quite comfortable when there are several criteria to be validated
-        /// before executing a business case. 
+        /// Used to build an <see cref="ClientException"/> with multiple possible error messages. The builder will
+        /// throw on disposal when at least one error was added. Using the AddIf methods is quite comfortable when
+        /// there are several criteria to be validated before executing a business case. 
         /// </summary>
         public static IExceptionBuilder UseBuilder()
         {
