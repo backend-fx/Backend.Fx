@@ -69,9 +69,10 @@ public interface IExceptionBuilder : IDisposable
     /// <summary>
     /// Tries to set the value of a property of an object. When the provided function throws an exception, the
     /// exception message is added to the collection of errors (or the <c>provideErrorMessage</c> function is called
-    /// to generate the error message) and the property is <b>not</b> set.
+    /// to generate the error message) and the property is <b>not</b> set. Instead, the error is collected in the
+    /// exception builder instance with the property name as key.
     /// </summary>
-    void TrySet<T, TValue>(T t, Expression<Func<T, TValue>> propertyExpression, Func<TValue> func,
+    void SetOrCollectError<T, TValue>(T t, Expression<Func<T, TValue>> propertyToSetExpression, Func<TValue> func,
         Func<Exception, string>? provideErrorMessage);
 
     /// <summary>
@@ -246,19 +247,19 @@ public class ExceptionBuilder<TEx> : IExceptionBuilder where TEx : ClientExcepti
         }
     }
 
-    public void TrySet<T, TValue>(T t, Expression<Func<T, TValue>> propertyExpression, Func<TValue> func,
+    public void SetOrCollectError<T, TValue>(T t, Expression<Func<T, TValue>> propertyToSetExpression, Func<TValue> func,
         Func<Exception, string>? provideErrorMessage)
     {
-        if (propertyExpression.Body is not MemberExpression memberExpression)
+        if (propertyToSetExpression.Body is not MemberExpression memberExpression)
         {
             throw new ArgumentException("Expression must be a property access (e.g., x => x.PropertyName)",
-                nameof(propertyExpression));
+                nameof(propertyToSetExpression));
         }
 
         if (memberExpression.Member is not System.Reflection.PropertyInfo propertyInfo)
         {
             throw new ArgumentException("Expression must reference a property, not a field",
-                nameof(propertyExpression));
+                nameof(propertyToSetExpression));
         }
 
         TValue? value;
