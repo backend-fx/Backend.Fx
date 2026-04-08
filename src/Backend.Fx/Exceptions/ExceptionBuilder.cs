@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using JetBrains.Annotations;
 
 namespace Backend.Fx.Exceptions;
@@ -64,6 +65,15 @@ public interface IExceptionBuilder : IDisposable
     /// Returns the result of the provided function, or collects an error message related to a specific argument value identified by the given key. A function must be provided to generate the error message based on the exception that occurred.
     /// </summary>
     T? Try<T>(string key, Func<T> func, Func<Exception, string> provideErrorMessage);
+
+    /// <summary>
+    /// Tries to set the value of a property of an object. When the provided function throws an exception, the
+    /// exception message is added to the collection of errors (or the <c>provideErrorMessage</c> function is called
+    /// to generate the error message) and the property is <b>not</b> set. Instead, the error is collected in the
+    /// exception builder instance with the property name as key.
+    /// </summary>
+    void SetOrCollectError<T, TValue>(T t, Expression<Func<T, TValue>> propertyToSetExpression, Func<TValue> func,
+        Func<Exception, string>? provideErrorMessage = null);
 
     /// <summary>
     /// Checks if there are any errors collected so far and throws the <see cref="ClientException"/> if there are.
@@ -139,7 +149,7 @@ public class ExceptionBuilder<TEx> : IExceptionBuilder where TEx : ClientExcepti
             {
                 _clientException.Errors.Add(error.Key, error.Value);
             }
-                
+
             return default;
         }
         catch (Exception ex)
@@ -161,7 +171,7 @@ public class ExceptionBuilder<TEx> : IExceptionBuilder where TEx : ClientExcepti
             {
                 _clientException.Errors.Add(error.Key, error.Value);
             }
-                
+
             return default;
         }
         catch (Exception ex)
@@ -194,7 +204,7 @@ public class ExceptionBuilder<TEx> : IExceptionBuilder where TEx : ClientExcepti
             {
                 _clientException.Errors.Add(error.Key, error.Value);
             }
-                
+
             return default;
         }
         catch (Exception ex)
@@ -216,7 +226,7 @@ public class ExceptionBuilder<TEx> : IExceptionBuilder where TEx : ClientExcepti
             {
                 _clientException.Errors.Add(error.Key, error.Value);
             }
-                
+
             return default;
         }
         catch (Exception ex)
@@ -235,6 +245,57 @@ public class ExceptionBuilder<TEx> : IExceptionBuilder where TEx : ClientExcepti
 
             return default;
         }
+    }
+
+    public void SetOrCollectError<T, TValue>(
+        T t, 
+        Expression<Func<T, TValue>> propertyToSetExpression,
+        Func<TValue> func,
+        Func<Exception, string>? provideErrorMessage = null)
+    {
+        if (propertyToSetExpression.Body is not MemberExpression memberExpression)
+        {
+            throw new ArgumentException("Expression must be a property access (e.g., x => x.PropertyName)",
+                nameof(propertyToSetExpression));
+        }
+
+        if (memberExpression.Member is not System.Reflection.PropertyInfo propertyInfo)
+        {
+            throw new ArgumentException("Expression must reference a property, not a field",
+                nameof(propertyToSetExpression));
+        }
+
+        TValue? value;
+
+        try
+        {
+            value = func();
+        }
+        catch (ClientException ex)
+        {
+            foreach (var error in ex.Errors)
+            {
+                _clientException.Errors.Add(error.Key, error.Value);
+            }
+
+            return;
+        }
+        catch (Exception ex)
+        {
+            if (provideErrorMessage != null)
+            {
+                var error = provideErrorMessage.Invoke(ex);
+                Add(error);
+            }
+            else
+            {
+                Add(propertyInfo.Name, ex.Message);
+            }
+
+            return;
+        }
+
+        propertyInfo.SetValue(t, value);
     }
 
     public void CheckAndMaybeThrowNow()
