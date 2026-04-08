@@ -73,7 +73,7 @@ public interface IExceptionBuilder : IDisposable
     /// exception builder instance with the property name as key.
     /// </summary>
     void SetOrCollectError<T, TValue>(T t, Expression<Func<T, TValue>> propertyToSetExpression, Func<TValue> func,
-        Func<Exception, string>? provideErrorMessage);
+        Func<Exception, string>? provideErrorMessage = null);
 
     /// <summary>
     /// Checks if there are any errors collected so far and throws the <see cref="ClientException"/> if there are.
@@ -247,8 +247,11 @@ public class ExceptionBuilder<TEx> : IExceptionBuilder where TEx : ClientExcepti
         }
     }
 
-    public void SetOrCollectError<T, TValue>(T t, Expression<Func<T, TValue>> propertyToSetExpression, Func<TValue> func,
-        Func<Exception, string>? provideErrorMessage)
+    public void SetOrCollectError<T, TValue>(
+        T t, 
+        Expression<Func<T, TValue>> propertyToSetExpression,
+        Func<TValue> func,
+        Func<Exception, string>? provideErrorMessage = null)
     {
         if (propertyToSetExpression.Body is not MemberExpression memberExpression)
         {
