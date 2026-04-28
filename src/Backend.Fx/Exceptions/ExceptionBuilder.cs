@@ -248,7 +248,7 @@ public class ExceptionBuilder<TEx> : IExceptionBuilder where TEx : ClientExcepti
     }
 
     public void SetOrCollectError<T, TValue>(
-        T t, 
+        T t,
         Expression<Func<T, TValue>> propertyToSetExpression,
         Func<TValue> func,
         Func<Exception, string>? provideErrorMessage = null)
@@ -310,4 +310,98 @@ public class ExceptionBuilder<TEx> : IExceptionBuilder where TEx : ClientExcepti
     {
         return _clientException.Errors;
     }
+}
+
+public static class ExceptionBuilderEx
+{
+    /// <summary>
+    /// Uses the provided <see cref="IExceptionBuilder"/> or creates a new <see cref="ExceptionBuilder{UnprocessableException}"/>.
+    /// Important: when using the provided exception builder, the builder is wrapped with a wrapper that prevents
+    /// throwing on disposal if there are any errors. This allows using the same builder instance in nested object
+    /// creation. 
+    /// </summary>
+    public static IExceptionBuilder OrDefault(this IExceptionBuilder? exb)
+        => exb == null ? UnprocessableException.UseBuilder() : new PreventThrowOnDisposal(exb);
+}
+
+internal class PreventThrowOnDisposal : IExceptionBuilder
+{
+    private readonly IExceptionBuilder _inner;
+
+    public PreventThrowOnDisposal(IExceptionBuilder inner)
+    {
+        _inner = inner;
+    }
+
+    public void Dispose()
+    {
+        // do nothing
+    }
+
+    public void Add(string error)
+    {
+        _inner.Add(error);
+    }
+
+    public void Add(string key, string error)
+    {
+        _inner.Add(key, error);
+    }
+
+    public void AddIfNull(object? toCheck, string error)
+    {
+        _inner.AddIfNull(toCheck, error);
+    }
+
+    public void AddIfNull(string key, object? toCheck, string error)
+    {
+        _inner.AddIfNull(key, toCheck, error);
+    }
+
+    public void AddIf(bool condition, string error)
+    {
+        _inner.AddIf(condition, error);
+    }
+
+    public void AddIf(string key, bool condition, string error)
+    {
+        _inner.AddIf(key, condition, error);
+    }
+
+    public T? Try<T>(Func<T> func)
+    {
+        return _inner.Try(func);
+    }
+
+    public T? Try<T>(Func<T> func, Func<Exception, string> provideErrorMessage)
+    {
+        return _inner.Try(func, provideErrorMessage);
+    }
+
+    public T? Try<T>(string key, Func<T> func)
+    {
+        return _inner.Try(key, func);
+    }
+
+    public T? Try<T>(string key, Func<T> func, Func<Exception, string> provideErrorMessage)
+    {
+        return _inner.Try(key, func, provideErrorMessage);
+    }
+
+    public void SetOrCollectError<T, TValue>(T t, Expression<Func<T, TValue>> propertyToSetExpression, Func<TValue> func, Func<Exception, string>? provideErrorMessage = null)
+    {
+        _inner.SetOrCollectError(t, propertyToSetExpression, func, provideErrorMessage);
+    }
+
+    public void CheckAndMaybeThrowNow()
+    {
+        _inner.CheckAndMaybeThrowNow();
+    }
+
+    public Errors GetErrors()
+    {
+        return _inner.GetErrors();
+    }
+
+    public bool HasError => _inner.HasError;
 }
