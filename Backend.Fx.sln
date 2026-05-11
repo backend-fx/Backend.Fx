@@ -4,6 +4,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Fx", "src\Backend.F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Fx.Tests", "src\Backend.Fx.Tests\Backend.Fx.Tests.csproj", "{99A4E87D-459C-47B0-8368-B6DD2353325F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{B42A95DF-F95A-4F57-84EC-47E731F2045D}"
+	ProjectSection(SolutionItems) = preProject
+		build\build.cake = build\build.cake
+		build\build.sh = build\build.sh
+		build\LICENSE.md = build\LICENSE.md
+		build\README.md = build\README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
