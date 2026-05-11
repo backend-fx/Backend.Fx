@@ -17,8 +17,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  nuke-build:
-    name: nuke-build
+  cake-build:
+    name: cake-build
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -34,4 +34,4 @@ jobs:
           dotnet-version: 10.0.x
 
       - name: cake build
-        run: ./build.sh test
+        run: ./build.sh --target=Test
