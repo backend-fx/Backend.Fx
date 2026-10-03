@@ -6,48 +6,58 @@ namespace Backend.Fx.Tests.Util;
 public class ByteExTests
 {
     [Theory]
+    [InlineData(0, 0)]
     [InlineData(1, 1_000)]
     [InlineData(2, 2_000)]
-    [InlineData(0, 0)]
     public void KbReturnsDecimalKilobytes(int input, int expected)
         => Assert.Equal(expected, input.KB());
 
     [Theory]
+    [InlineData(0, 0)]
     [InlineData(1, 1_000_000)]
     [InlineData(2, 2_000_000)]
     public void MbReturnsDecimalMegabytes(int input, int expected)
         => Assert.Equal(expected, input.MB());
 
     [Theory]
+    [InlineData(0, 0)]
     [InlineData(1, 1_000_000_000)]
-    public void GbReturnsDecimalGigabytes(int input, int expected)
+    [InlineData(2, 2_000_000_000)]
+    [InlineData(3, 3_000_000_000)]
+    public void GbReturnsDecimalGigabytes(int input, long expected)
         => Assert.Equal(expected, input.GB());
 
     [Theory]
+    [InlineData(0, 0L)]
     [InlineData(1, 1_000_000_000_000L)]
     [InlineData(2, 2_000_000_000_000L)]
+    [InlineData(3, 3_000_000_000_000L)]
     public void TbReturnsDecimalTerabytes(int input, long expected)
         => Assert.Equal(expected, input.TB());
 
     [Theory]
+    [InlineData(0, 0)]
     [InlineData(1, 1_024)]
     [InlineData(2, 2_048)]
-    [InlineData(0, 0)]
     public void KiBReturnsBinaryKibibytes(int input, int expected)
         => Assert.Equal(expected, input.KiB());
 
     [Theory]
+    [InlineData(0, 0)]
     [InlineData(1, 1_048_576)]
     [InlineData(2, 2_097_152)]
     public void MiBReturnsBinaryMebibytes(int input, int expected)
         => Assert.Equal(expected, input.MiB());
 
     [Theory]
+    [InlineData(0, 0)]
     [InlineData(1, 1_073_741_824)]
-    public void GiBReturnsBinaryGibibytes(int input, int expected)
+    [InlineData(2, 2_147_483_648)]
+    public void GiBReturnsBinaryGibibytes(int input, long expected)
         => Assert.Equal(expected, input.GiB());
 
     [Theory]
+    [InlineData(0, 0)]
     [InlineData(1, 1_099_511_627_776L)]
     [InlineData(2, 2_199_023_255_552L)]
     public void TiBReturnsBinaryTebibytes(int input, long expected)

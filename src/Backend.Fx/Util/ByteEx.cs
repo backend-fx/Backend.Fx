@@ -8,18 +8,18 @@ public static class BytesEx
 {
     private const int OneKiloByte = 1000;
     private const int OneMegaByte = 1000 * 1000;
-    private const int OneGigaByte = 1000 * 1000 * 1000;
+    private const long OneGigaByte = 1000 * 1000 * 1000;
     private const long OneTeraByte = 1000L * 1000 * 1000 * 1000;
 
     private const int OneKibiByte = 1024;
     private const int OneMebiByte = 1024 * 1024;
-    private const int OneGibiByte = 1024 * 1024 * 1024;
+    private const long OneGibiByte = 1024 * 1024 * 1024;
     private const long OneTebiByte = 1024L * 1024 * 1024 * 1024;
 
     // ReSharper disable InconsistentNaming
     public static long TB(this int tb) => tb.EnsurePositive() * OneTeraByte;
     
-    public static int GB(this int gb) => gb.EnsurePositive() * OneGigaByte;
+    public static long GB(this int gb) => gb.EnsurePositive() * OneGigaByte;
 
     public static int MB(this int mb) => mb.EnsurePositive() * OneMegaByte;
 
@@ -27,7 +27,7 @@ public static class BytesEx
 
     public static long TiB(this int tb) => tb.EnsurePositive() * OneTebiByte;
 
-    public static int GiB(this int gb) => gb.EnsurePositive() * OneGibiByte;
+    public static long GiB(this int gb) => gb.EnsurePositive() * OneGibiByte;
 
     public static int MiB(this int mb) => mb.EnsurePositive() * OneMebiByte;
 
