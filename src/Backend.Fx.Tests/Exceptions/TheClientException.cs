@@ -9,9 +9,9 @@ public class TheClientException
     [Fact]
     public void CanBeInstantiated()
     {
-        var unused1 = new ClientException();
-        var unused2 = new ClientException("With a message");
-        var unused3 = new ClientException("With a message and an inner", new Exception());
+        _ = new ClientException();
+        _ = new ClientException("With a message");
+        _ = new ClientException("With a message and an inner", new Exception());
     }
     
     [Fact]

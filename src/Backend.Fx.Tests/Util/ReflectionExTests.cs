@@ -9,6 +9,7 @@ public class ReflectionExTests
 {
     private interface IAnimal;
 
+    // ReSharper disable once UnusedTypeParameter
     private interface IRepository<T>;
 
     private class Dog : IAnimal;

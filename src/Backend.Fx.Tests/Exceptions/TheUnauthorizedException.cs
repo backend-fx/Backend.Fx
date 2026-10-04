@@ -9,8 +9,8 @@ public class TheUnauthorizedException
     [Fact]
     public void CanBeInstantiated()
     {
-        var unused1 = new UnauthorizedException();
-        var unused2 = new UnauthorizedException("With a message");
-        var unused3 = new UnauthorizedException("With a message and an inner", new Exception());
+        _ = new UnauthorizedException();
+        _ = new UnauthorizedException("With a message");
+        _ = new UnauthorizedException("With a message and an inner", new Exception());
     }
 }
