@@ -8,7 +8,7 @@ public sealed class TestLogger : ILogger
 {
     public List<(LogLevel Level, string Message, Exception? Exception)> Entries { get; } = new();
 
-    public IDisposable? BeginScope<TState>(TState state) where TState : notnull => NullScope.Instance;
+    public IDisposable BeginScope<TState>(TState state) where TState : notnull => NullScope.Instance;
 
     public bool IsEnabled(LogLevel logLevel) => true;
 

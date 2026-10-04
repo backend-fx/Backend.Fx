@@ -1,5 +1,4 @@
-﻿using System;
-using Backend.Fx.Exceptions;
+﻿using Backend.Fx.Exceptions;
 using JetBrains.Annotations;
 using Xunit;
 
@@ -12,7 +11,7 @@ public class TheUnprocessableExceptionBuilder
     {
         IExceptionBuilder sut = UnprocessableException.UseBuilder();
         sut.AddIfNull(null!, "is null");
-        Assert.Throws<UnprocessableException>(() => sut.Dispose());
+        Assert.Throws<UnprocessableException>(sut.Dispose);
     }
 
     [Fact]
@@ -36,7 +35,7 @@ public class TheUnprocessableExceptionBuilder
     {
         IExceptionBuilder sut = UnprocessableException.UseBuilder();
         sut.AddIf(true, "something is broken");
-        Assert.Throws<UnprocessableException>(() => sut.Dispose());
+        Assert.Throws<UnprocessableException>(sut.Dispose);
     }
 
     [Fact]
@@ -44,7 +43,7 @@ public class TheUnprocessableExceptionBuilder
     {
         IExceptionBuilder sut = UnprocessableException.UseBuilder();
         sut.AddIf("the key", true, "something is broken");
-        Assert.Throws<UnprocessableException>(() => sut.Dispose());
+        Assert.Throws<UnprocessableException>(sut.Dispose);
     }
 
     [Fact]
@@ -52,7 +51,7 @@ public class TheUnprocessableExceptionBuilder
     {
         IExceptionBuilder sut = UnprocessableException.UseBuilder();
         sut.Add("something is broken");
-        Assert.Throws<UnprocessableException>(() => sut.Dispose());
+        Assert.Throws<UnprocessableException>(sut.Dispose);
     }
 
     [Fact]
@@ -60,7 +59,7 @@ public class TheUnprocessableExceptionBuilder
     {
         IExceptionBuilder sut = UnprocessableException.UseBuilder();
         sut.Add("theKey", "something is broken");
-        Assert.Throws<UnprocessableException>(() => sut.Dispose());
+        Assert.Throws<UnprocessableException>(sut.Dispose);
     }
 
     [Fact]
@@ -69,7 +68,7 @@ public class TheUnprocessableExceptionBuilder
         int zero = 0;
         IExceptionBuilder sut = UnprocessableException.UseBuilder();
         sut.Try(() => 6 / zero);
-        Assert.Throws<UnprocessableException>(() => sut.Dispose());
+        Assert.Throws<UnprocessableException>(sut.Dispose);
     }
 
     [UsedImplicitly]

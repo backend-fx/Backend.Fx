@@ -9,8 +9,8 @@ public class TheUnprocessableException
     [Fact]
     public void CanBeInstantiated()
     {
-        var unused1 = new UnprocessableException();
-        var unused2 = new UnprocessableException("With a message");
-        var unused3 = new UnprocessableException("With a message and an inner", new Exception());
+        _ = new UnprocessableException();
+        _ = new UnprocessableException("With a message");
+        _ = new UnprocessableException("With a message and an inner", new Exception());
     }
 }
