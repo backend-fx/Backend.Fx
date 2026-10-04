@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/Backend.Fx.Tests/Backend.Fx.Tests.csproj" />
+  <Project Path="src/Backend.Fx/Backend.Fx.csproj" />
+</Solution>
