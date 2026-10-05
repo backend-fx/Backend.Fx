@@ -9,14 +9,24 @@ namespace Backend.Fx.Hacking;
 [PublicAPI]
 public static class PrivateUtil
 {
-    public static void SetPrivate<T, TValue>(this T instance, Expression<Func<T, TValue>> propertyExpression, TValue value)
+    public static void SetPrivate<T, TValue>(
+        this T instance,
+        Expression<Func<T, TValue>> propertyExpression,
+        TValue value
+    )
     {
         if (instance == null)
         {
-            throw new InvalidOperationException("Cannot set a private property value on a null reference");
+            throw new InvalidOperationException(
+                "Cannot set a private property value on a null reference"
+            );
         }
-            
-        instance.GetType().GetTypeInfo().GetDeclaredProperty(GetName(propertyExpression)).SetValue(instance, value, null);
+
+        instance
+            .GetType()
+            .GetTypeInfo()
+            .GetDeclaredProperty(GetName(propertyExpression))
+            .SetValue(instance, value, null);
     }
 
     private static string GetName<T, TValue>(Expression<Func<T, TValue>> exp)
@@ -27,19 +37,23 @@ public static class PrivateUtil
             MethodCallExpression methodCallExpression => methodCallExpression.Method.Name,
             UnaryExpression { Operand: MemberExpression operand } => operand.Member.Name,
             ConstantExpression constantExpression => constantExpression.Value.ToString(),
-            _ => throw new ArgumentException("Expression type not supported")
+            _ => throw new ArgumentException("Expression type not supported"),
         };
     }
-        
+
     public static T CreateInstanceFromPrivateDefaultConstructor<T>()
     {
-        var constructor = typeof(T).GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance).SingleOrDefault(ci => ci.GetParameters().Length == 0);
+        var constructor = typeof(T)
+            .GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance)
+            .SingleOrDefault(ci => ci.GetParameters().Length == 0);
         if (constructor == null)
         {
-            throw new InvalidOperationException($"No private default constructor found in {typeof(T).Name}");
+            throw new InvalidOperationException(
+                $"No private default constructor found in {typeof(T).Name}"
+            );
         }
 
-        var instance = (T) constructor.Invoke(null);
+        var instance = (T)constructor.Invoke(null);
         return instance;
     }
 }

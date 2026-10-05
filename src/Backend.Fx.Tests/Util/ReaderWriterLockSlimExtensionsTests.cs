@@ -37,9 +37,7 @@ public class ReaderWriterLockSlimExtensionsTests
     {
         var sync = new ReaderWriterLockSlim();
 
-        using (sync.Write())
-        {
-        }
+        using (sync.Write()) { }
 
         using (sync.Read())
         {

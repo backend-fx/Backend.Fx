@@ -9,7 +9,9 @@ public class AdjustableClockTests
     private sealed class FixedClock : IClock
     {
         private readonly Instant _instant;
+
         public FixedClock(Instant instant) => _instant = instant;
+
         public Instant GetCurrentInstant() => _instant;
     }
 

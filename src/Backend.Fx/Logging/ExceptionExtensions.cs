@@ -23,7 +23,9 @@ public static class ExceptionExtensions
     public static IEnumerable<TSource> FromHierarchy<TSource>(
         this TSource source,
         Func<TSource, TSource> nextItem,
-        Func<TSource, bool> canContinue) where TSource : Exception
+        Func<TSource, bool> canContinue
+    )
+        where TSource : Exception
     {
         for (TSource current = source; canContinue(current); current = nextItem(current))
         {
@@ -33,7 +35,8 @@ public static class ExceptionExtensions
 
     public static IEnumerable<TSource> FromHierarchy<TSource>(
         this TSource source,
-        Func<TSource, TSource> nextItem)
+        Func<TSource, TSource> nextItem
+    )
         where TSource : Exception
     {
         return FromHierarchy(source, nextItem, s => s != null);

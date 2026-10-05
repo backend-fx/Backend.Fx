@@ -26,8 +26,7 @@ public class TolerantDateTimeComparerTests
     }
 
     [Fact]
-    public void ConsidersTwoNullsEqual()
-        => Assert.True(_sut.Equals(null, null));
+    public void ConsidersTwoNullsEqual() => Assert.True(_sut.Equals(null, null));
 
     [Fact]
     public void ConsidersNullAndValueUnequal()
@@ -38,8 +37,7 @@ public class TolerantDateTimeComparerTests
     }
 
     [Fact]
-    public void GetHashCodeReturnsZeroForNull()
-        => Assert.Equal(0, _sut.GetHashCode(null));
+    public void GetHashCodeReturnsZeroForNull() => Assert.Equal(0, _sut.GetHashCode(null));
 }
 
 public class TolerantDateTimeOffsetComparerTests
@@ -61,12 +59,10 @@ public class TolerantDateTimeOffsetComparerTests
     }
 
     [Fact]
-    public void ConsidersTwoNullsEqual()
-        => Assert.True(_sut.Equals(null, null));
+    public void ConsidersTwoNullsEqual() => Assert.True(_sut.Equals(null, null));
 
     [Fact]
-    public void GetHashCodeReturnsZeroForNull()
-        => Assert.Equal(0, _sut.GetHashCode(null));
+    public void GetHashCodeReturnsZeroForNull() => Assert.Equal(0, _sut.GetHashCode(null));
 }
 
 public class TolerantInstantComparerTests
@@ -88,8 +84,7 @@ public class TolerantInstantComparerTests
     }
 
     [Fact]
-    public void ConsidersTwoNullsEqual()
-        => Assert.True(_sut.Equals(null, null));
+    public void ConsidersTwoNullsEqual() => Assert.True(_sut.Equals(null, null));
 
     [Fact]
     public void ConsidersNullAndValueUnequal()
@@ -100,6 +95,5 @@ public class TolerantInstantComparerTests
     }
 
     [Fact]
-    public void GetHashCodeReturnsZeroForNull()
-        => Assert.Equal(0, _sut.GetHashCode(null));
+    public void GetHashCodeReturnsZeroForNull() => Assert.Equal(0, _sut.GetHashCode(null));
 }

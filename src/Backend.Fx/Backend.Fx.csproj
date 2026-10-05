@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <IncludeSymbols>true</IncludeSymbols>
     <LangVersion>latest</LangVersion>
@@ -8,7 +7,7 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-  
+
   <PropertyGroup>
     <Authors>Marc Wittke</Authors>
     <Company>anic GmbH</Company>
@@ -21,12 +20,15 @@
     <RepositoryType>Git</RepositoryType>
     <RepositoryUrl>https://github.com/backend-fx/Backend.Fx.git</RepositoryUrl>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2026.2.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.12" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.401" PrivateAssets="All" />
+    <PackageReference
+      Include="Microsoft.SourceLink.GitHub"
+      Version="10.0.401"
+      PrivateAssets="All"
+    />
     <PackageReference Include="NodaTime" Version="3.3.5" />
   </ItemGroup>
-
 </Project>

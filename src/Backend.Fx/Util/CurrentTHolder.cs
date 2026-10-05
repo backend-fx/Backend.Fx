@@ -15,7 +15,7 @@ public interface ICurrentTHolder<T>
     T Current { get; }
 
     void ReplaceCurrent(T newCurrentInstance);
-        
+
     void ClearCurrent();
 
     T ProvideInstance();
@@ -27,14 +27,13 @@ public abstract class CurrentTHolder<T> : ICurrentTHolder<T>
     private readonly ILogger _logger = Log.Create<CurrentTHolder<T>>();
     private T? _current;
 
-    protected CurrentTHolder()
-    { }
+    protected CurrentTHolder() { }
 
     protected CurrentTHolder(T initial)
     {
         _current = initial;
     }
-        
+
     public T Current
     {
         get
@@ -43,7 +42,11 @@ public abstract class CurrentTHolder<T> : ICurrentTHolder<T>
             {
                 _logger.LogDebug("Providing initial {HeldTypeName} instance", typeof(T).Name);
                 _current = ProvideInstance();
-                _logger.LogDebug("Initial instance of {HeldTypeName} is: {HeldInstanceDescription}", typeof(T).Name, DescribeSafe(_current));
+                _logger.LogDebug(
+                    "Initial instance of {HeldTypeName} is: {HeldInstanceDescription}",
+                    typeof(T).Name,
+                    DescribeSafe(_current)
+                );
             }
 
             return _current;
@@ -52,40 +55,45 @@ public abstract class CurrentTHolder<T> : ICurrentTHolder<T>
 
     public void ReplaceCurrent(T newCurrentInstance)
     {
-        if (Equals(_current, newCurrentInstance)) return;
+        if (Equals(_current, newCurrentInstance))
+            return;
 
         _logger.LogDebug(
             "Replacing current instance of {HeldTypename} ({HeldInstanceDescription}) with another instance ({NewInstanceDescription})",
             typeof(T).Name,
             DescribeSafe(_current),
-            DescribeSafe(newCurrentInstance));
+            DescribeSafe(newCurrentInstance)
+        );
         _current = newCurrentInstance;
     }
 
     public void ClearCurrent()
     {
-        if (Equals(_current, null)) return;
+        if (Equals(_current, null))
+            return;
 
         _logger.LogDebug(
             "Clearing current instance of {HeldTypename} ({HeldInstanceDescription})",
             typeof(T).Name,
-            DescribeSafe(_current));
-            
+            DescribeSafe(_current)
+        );
+
         if (_current is IDisposable disposable)
         {
             _logger.LogDebug(
                 "Disposing current instance of {HeldTypename} ({HeldInstanceDescription})",
                 typeof(T).Name,
-                DescribeSafe(_current));
+                DescribeSafe(_current)
+            );
             disposable.Dispose();
         }
-            
+
         _current = default;
     }
 
     private string DescribeSafe(T? instance)
     {
-        return instance == null ? "<NULL>" : Describe(instance);   
+        return instance == null ? "<NULL>" : Describe(instance);
     }
 
     public abstract T ProvideInstance();
