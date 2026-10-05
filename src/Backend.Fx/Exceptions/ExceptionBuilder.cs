@@ -72,8 +72,12 @@ public interface IExceptionBuilder : IDisposable
     /// to generate the error message) and the property is <b>not</b> set. Instead, the error is collected in the
     /// exception builder instance with the property name as key.
     /// </summary>
-    void SetOrCollectError<T, TValue>(T t, Expression<Func<T, TValue>> propertyToSetExpression, Func<TValue> func,
-        Func<Exception, string>? provideErrorMessage = null);
+    void SetOrCollectError<T, TValue>(
+        T t,
+        Expression<Func<T, TValue>> propertyToSetExpression,
+        Func<TValue> func,
+        Func<Exception, string>? provideErrorMessage = null
+    );
 
     /// <summary>
     /// Checks if there are any errors collected so far and throws the <see cref="ClientException"/> if there are.
@@ -87,7 +91,8 @@ public interface IExceptionBuilder : IDisposable
 }
 
 [PublicAPI]
-public class ExceptionBuilder<TEx> : IExceptionBuilder where TEx : ClientException, new()
+public class ExceptionBuilder<TEx> : IExceptionBuilder
+    where TEx : ClientException, new()
 {
     private readonly TEx _clientException = new();
 
@@ -184,13 +189,13 @@ public class ExceptionBuilder<TEx> : IExceptionBuilder where TEx : ClientExcepti
             catch (Exception innerEx)
             {
                 Add(
-                    $"Error generation failed! Original exception message: [{ex.Message}]. Error generation exception message: [{innerEx.Message}]");
+                    $"Error generation failed! Original exception message: [{ex.Message}]. Error generation exception message: [{innerEx.Message}]"
+                );
             }
 
             return default;
         }
     }
-
 
     public T? Try<T>(string key, Func<T> func)
     {
@@ -240,7 +245,8 @@ public class ExceptionBuilder<TEx> : IExceptionBuilder where TEx : ClientExcepti
             {
                 Add(
                     key,
-                    $"Error generation failed! Original exception message: [{ex.Message}]. Error generation exception message: [{innerEx.Message}]");
+                    $"Error generation failed! Original exception message: [{ex.Message}]. Error generation exception message: [{innerEx.Message}]"
+                );
             }
 
             return default;
@@ -251,18 +257,23 @@ public class ExceptionBuilder<TEx> : IExceptionBuilder where TEx : ClientExcepti
         T t,
         Expression<Func<T, TValue>> propertyToSetExpression,
         Func<TValue> func,
-        Func<Exception, string>? provideErrorMessage = null)
+        Func<Exception, string>? provideErrorMessage = null
+    )
     {
         if (propertyToSetExpression.Body is not MemberExpression memberExpression)
         {
-            throw new ArgumentException("Expression must be a property access (e.g., x => x.PropertyName)",
-                nameof(propertyToSetExpression));
+            throw new ArgumentException(
+                "Expression must be a property access (e.g., x => x.PropertyName)",
+                nameof(propertyToSetExpression)
+            );
         }
 
         if (memberExpression.Member is not System.Reflection.PropertyInfo propertyInfo)
         {
-            throw new ArgumentException("Expression must reference a property, not a field",
-                nameof(propertyToSetExpression));
+            throw new ArgumentException(
+                "Expression must reference a property, not a field",
+                nameof(propertyToSetExpression)
+            );
         }
 
         TValue? value;
@@ -318,10 +329,10 @@ public static class ExceptionBuilderEx
     /// Uses the provided <see cref="IExceptionBuilder"/> or creates a new <see cref="ExceptionBuilder{UnprocessableException}"/>.
     /// Important: when using the provided exception builder, the builder is wrapped with a wrapper that prevents
     /// throwing on disposal if there are any errors. This allows using the same builder instance in nested object
-    /// creation. 
+    /// creation.
     /// </summary>
-    public static IExceptionBuilder OrDefault(this IExceptionBuilder? exb)
-        => exb == null ? UnprocessableException.UseBuilder() : new PreventThrowOnDisposal(exb);
+    public static IExceptionBuilder OrDefault(this IExceptionBuilder? exb) =>
+        exb == null ? UnprocessableException.UseBuilder() : new PreventThrowOnDisposal(exb);
 }
 
 internal class PreventThrowOnDisposal : IExceptionBuilder
@@ -388,7 +399,12 @@ internal class PreventThrowOnDisposal : IExceptionBuilder
         return _inner.Try(key, func, provideErrorMessage);
     }
 
-    public void SetOrCollectError<T, TValue>(T t, Expression<Func<T, TValue>> propertyToSetExpression, Func<TValue> func, Func<Exception, string>? provideErrorMessage = null)
+    public void SetOrCollectError<T, TValue>(
+        T t,
+        Expression<Func<T, TValue>> propertyToSetExpression,
+        Func<TValue> func,
+        Func<Exception, string>? provideErrorMessage = null
+    )
     {
         _inner.SetOrCollectError(t, propertyToSetExpression, func, provideErrorMessage);
     }

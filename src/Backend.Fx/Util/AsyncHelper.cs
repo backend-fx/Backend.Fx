@@ -25,22 +25,25 @@ public static class AsyncHelper
             var exclusiveSynchronizationContext = new ExclusiveSynchronizationContext();
             SynchronizationContext.SetSynchronizationContext(exclusiveSynchronizationContext);
             // ReSharper disable once AsyncVoidLambda
-            exclusiveSynchronizationContext.Post(async _ =>
-            {
-                try
+            exclusiveSynchronizationContext.Post(
+                async _ =>
                 {
-                    await task().ConfigureAwait(false);
-                }
-                catch (Exception e)
-                {
-                    exclusiveSynchronizationContext.InnerException = e;
-                    throw;
-                }
-                finally
-                {
-                    exclusiveSynchronizationContext.EndMessageLoop();
-                }
-            }, new object());
+                    try
+                    {
+                        await task().ConfigureAwait(false);
+                    }
+                    catch (Exception e)
+                    {
+                        exclusiveSynchronizationContext.InnerException = e;
+                        throw;
+                    }
+                    finally
+                    {
+                        exclusiveSynchronizationContext.EndMessageLoop();
+                    }
+                },
+                new object()
+            );
             exclusiveSynchronizationContext.BeginMessageLoop();
         }
         finally
@@ -64,22 +67,25 @@ public static class AsyncHelper
             var exclusiveSynchronizationContext = new ExclusiveSynchronizationContext();
             SynchronizationContext.SetSynchronizationContext(exclusiveSynchronizationContext);
             // ReSharper disable once AsyncVoidLambda
-            exclusiveSynchronizationContext.Post(async _ =>
-            {
-                try
+            exclusiveSynchronizationContext.Post(
+                async _ =>
                 {
-                    ret = await task().ConfigureAwait(false);
-                }
-                catch (Exception e)
-                {
-                    exclusiveSynchronizationContext.InnerException = e;
-                    throw;
-                }
-                finally
-                {
-                    exclusiveSynchronizationContext.EndMessageLoop();
-                }
-            }, new object());
+                    try
+                    {
+                        ret = await task().ConfigureAwait(false);
+                    }
+                    catch (Exception e)
+                    {
+                        exclusiveSynchronizationContext.InnerException = e;
+                        throw;
+                    }
+                    finally
+                    {
+                        exclusiveSynchronizationContext.EndMessageLoop();
+                    }
+                },
+                new object()
+            );
             exclusiveSynchronizationContext.BeginMessageLoop();
         }
         finally
@@ -135,7 +141,10 @@ public static class AsyncHelper
                     task.Item1(task.Item2);
                     if (InnerException != null) // the method threw an exception
                     {
-                        throw new AggregateException("AsyncHelpers.Run method threw an exception.", InnerException);
+                        throw new AggregateException(
+                            "AsyncHelpers.Run method threw an exception.",
+                            InnerException
+                        );
                     }
                 }
                 else

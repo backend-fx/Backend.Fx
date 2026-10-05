@@ -13,20 +13,22 @@ public class TooManyRequestsException : ClientException
     }
 
     /// <inheritdoc />
-    public TooManyRequestsException(int retryAfter, string message) : base(message)
+    public TooManyRequestsException(int retryAfter, string message)
+        : base(message)
     {
         RetryAfter = retryAfter;
     }
 
     /// <inheritdoc />
-    public TooManyRequestsException(int retryAfter, string message, Exception innerException) : base(message, innerException)
+    public TooManyRequestsException(int retryAfter, string message, Exception innerException)
+        : base(message, innerException)
     {
         RetryAfter = retryAfter;
     }
 
     public int RetryAfter { get; }
-    
+
     public override string Rfc7807Title => "Too Many Requests";
-    
+
     public override int Rfc7807Status => 429;
 }

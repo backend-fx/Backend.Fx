@@ -10,11 +10,10 @@ namespace Backend.Fx.Logging;
 public class ExceptionLoggers : ICollection<IExceptionLogger>, IExceptionLogger
 {
     private readonly ILogger _logger = Log.Create<ExceptionLoggers>();
-    private readonly ICollection<IExceptionLogger> _collectionImplementation = new List<IExceptionLogger>();
+    private readonly ICollection<IExceptionLogger> _collectionImplementation =
+        new List<IExceptionLogger>();
 
-    public ExceptionLoggers()
-    {
-    }
+    public ExceptionLoggers() { }
 
     public ExceptionLoggers(params IExceptionLogger[] exceptionLoggers)
     {
@@ -34,11 +33,13 @@ public class ExceptionLoggers : ICollection<IExceptionLogger>, IExceptionLogger
             }
             catch (Exception ex2)
             {
-                _logger.LogError(ex,
+                _logger.LogError(
+                    ex,
                     "{ExceptionLoggerTypeName} failed to log the {ExceptionTypeName} with message {ExceptionMessage}",
                     exceptionLogger.GetType().Name,
                     ex2.GetType(),
-                    ex.Message);
+                    ex.Message
+                );
             }
         }
     }

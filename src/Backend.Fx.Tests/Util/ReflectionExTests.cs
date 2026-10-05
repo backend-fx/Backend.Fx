@@ -9,6 +9,7 @@ public class ReflectionExTests
 {
     private interface IAnimal;
 
+    // ReSharper disable once UnusedTypeParameter
     private interface IRepository<T>;
 
     private class Dog : IAnimal;
@@ -35,7 +36,9 @@ public class ReflectionExTests
     [Fact]
     public void GetImplementingTypesForSingleAssemblyWorks()
     {
-        var types = typeof(ReflectionExTests).Assembly.GetImplementingTypes(typeof(IAnimal)).ToList();
+        var types = typeof(ReflectionExTests)
+            .Assembly.GetImplementingTypes(typeof(IAnimal))
+            .ToList();
 
         Assert.Contains(typeof(Dog), types);
     }
@@ -43,19 +46,24 @@ public class ReflectionExTests
     [Fact]
     public void IsImplementationOfOpenGenericInterfaceDetectsImplementation()
     {
-        Assert.True(typeof(IntRepository).IsImplementationOfOpenGenericInterface(typeof(IRepository<>)));
+        Assert.True(
+            typeof(IntRepository).IsImplementationOfOpenGenericInterface(typeof(IRepository<>))
+        );
         Assert.False(typeof(Dog).IsImplementationOfOpenGenericInterface(typeof(IRepository<>)));
     }
 
     [Fact]
-    public void GetDetailedTypeNameReturnsSimpleNameForNonGeneric()
-        => Assert.Equal("Dog", typeof(Dog).GetDetailedTypeName());
+    public void GetDetailedTypeNameReturnsSimpleNameForNonGeneric() =>
+        Assert.Equal("Dog", typeof(Dog).GetDetailedTypeName());
 
     [Fact]
     public void GetDetailedTypeNameIncludesGenericArguments()
     {
         Assert.Equal("IRepository<Int32>", typeof(IRepository<int>).GetDetailedTypeName());
-        Assert.Equal("Dictionary<String,Int32>", typeof(Dictionary<string, int>).GetDetailedTypeName());
+        Assert.Equal(
+            "Dictionary<String,Int32>",
+            typeof(Dictionary<string, int>).GetDetailedTypeName()
+        );
     }
 
     [Fact]

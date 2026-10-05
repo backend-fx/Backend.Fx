@@ -19,8 +19,8 @@ public class DelegateDisposableTests
     }
 
     [Fact]
-    public void ThrowsForNullAction()
-        => Assert.Throws<ArgumentNullException>(() => new DelegateDisposable(null!));
+    public void ThrowsForNullAction() =>
+        Assert.Throws<ArgumentNullException>(() => new DelegateDisposable(null!));
 }
 
 public class MultipleDisposableTests
@@ -32,7 +32,8 @@ public class MultipleDisposableTests
         var sut = new MultipleDisposable(
             new DelegateDisposable(() => order.Add(1)),
             new DelegateDisposable(() => order.Add(2)),
-            new DelegateDisposable(() => order.Add(3)));
+            new DelegateDisposable(() => order.Add(3))
+        );
 
         sut.Dispose();
 

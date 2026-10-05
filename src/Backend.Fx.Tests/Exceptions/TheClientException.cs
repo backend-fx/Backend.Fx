@@ -9,62 +9,72 @@ public class TheClientException
     [Fact]
     public void CanBeInstantiated()
     {
-        var unused1 = new ClientException();
-        var unused2 = new ClientException("With a message");
-        var unused3 = new ClientException("With a message and an inner", new Exception());
+        _ = new ClientException();
+        _ = new ClientException("With a message");
+        _ = new ClientException("With a message and an inner", new Exception());
     }
-    
+
     [Fact]
     public void AllowsAddingError()
     {
-        var exception = new ClientException()
-            .AddError("The error message");
+        var exception = new ClientException().AddError("The error message");
 
-        Assert.Contains(exception.Errors, err => err.Key == string.Empty && err.Value[0] == "The error message");
+        Assert.Contains(
+            exception.Errors,
+            err => err.Key == string.Empty && err.Value[0] == "The error message"
+        );
         Assert.True(exception.HasErrors());
         Assert.NotEmpty(exception.Errors[string.Empty]);
         Assert.Contains(string.Empty, exception.Errors.Keys);
         Assert.Contains(exception.Errors.Values, val => val[0] == "The error message");
     }
-    
+
     [Fact]
     public void AllowsAddingErrors()
     {
-        var exception = new ClientException()
-            .AddErrors(["The first error message", "The second error message"]);
+        var exception = new ClientException().AddErrors([
+            "The first error message",
+            "The second error message",
+        ]);
 
         Assert.Contains(
             exception.Errors,
-            err => 
-                err.Key == string.Empty 
+            err =>
+                err.Key == string.Empty
                 && err.Value[0] == "The first error message"
-                && err.Value[1] == "The second error message");
+                && err.Value[1] == "The second error message"
+        );
         Assert.True(exception.HasErrors());
     }
-    
+
     [Fact]
     public void AllowsAddingKeyedError()
     {
-        var exception = new ClientException()
-            .AddError("key", "The error message");
-
-        Assert.Contains(exception.Errors, err => err.Key == "key" && err.Value[0] == "The error message");
-        Assert.True(exception.HasErrors());
-        Assert.True(exception.Errors.ContainsKey("key"));
-    }
-    
-    [Fact]
-    public void AllowsAddingKeyedErrors()
-    {
-        var exception = new ClientException()
-            .AddErrors("key", ["The first error message", "The second error message"]);
+        var exception = new ClientException().AddError("key", "The error message");
 
         Assert.Contains(
             exception.Errors,
-            err => 
-                err.Key == "key" 
+            err => err.Key == "key" && err.Value[0] == "The error message"
+        );
+        Assert.True(exception.HasErrors());
+        Assert.True(exception.Errors.ContainsKey("key"));
+    }
+
+    [Fact]
+    public void AllowsAddingKeyedErrors()
+    {
+        var exception = new ClientException().AddErrors(
+            "key",
+            ["The first error message", "The second error message"]
+        );
+
+        Assert.Contains(
+            exception.Errors,
+            err =>
+                err.Key == "key"
                 && err.Value[0] == "The first error message"
-                && err.Value[1] == "The second error message");
+                && err.Value[1] == "The second error message"
+        );
         Assert.True(exception.HasErrors());
         Assert.True(exception.Errors.ContainsKey("key"));
     }
@@ -72,8 +82,10 @@ public class TheClientException
     [Fact]
     public void ContainsErrorsInToString()
     {
-        var exception = new ClientException()
-            .AddErrors("key", ["The first error message", "The second error message"]);
+        var exception = new ClientException().AddErrors(
+            "key",
+            ["The first error message", "The second error message"]
+        );
 
         string exToString = exception.ToString();
         Assert.Contains("Errors: 1", exToString);

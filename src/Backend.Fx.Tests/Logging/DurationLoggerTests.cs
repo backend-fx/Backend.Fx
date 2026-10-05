@@ -40,9 +40,7 @@ public class DurationLoggerTests
     {
         var logger = new TestLogger();
 
-        using (logger.LogInformationDuration("activity"))
-        {
-        }
+        using (logger.LogInformationDuration("activity")) { }
 
         Assert.Equal(2, logger.Entries.Count);
         Assert.All(logger.Entries, e => Assert.Equal(LogLevel.Information, e.Level));
@@ -55,13 +53,9 @@ public class DurationLoggerTests
     {
         var logger = new TestLogger();
 
-        using (logger.LogDebugDuration("d-begin", "d-end"))
-        {
-        }
+        using (logger.LogDebugDuration("d-begin", "d-end")) { }
 
-        using (logger.LogTraceDuration("t"))
-        {
-        }
+        using (logger.LogTraceDuration("t")) { }
 
         Assert.Equal(LogLevel.Debug, logger.Entries[0].Level);
         Assert.Equal(LogLevel.Trace, logger.Entries[2].Level);

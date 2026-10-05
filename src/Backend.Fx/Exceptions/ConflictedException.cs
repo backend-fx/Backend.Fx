@@ -7,23 +7,17 @@ namespace Backend.Fx.Exceptions;
 public class ConflictedException : ClientException
 {
     public ConflictedException()
-        : base("Conflicted")
-    {
-    }
+        : base("Conflicted") { }
 
     /// <inheritdoc />
     public ConflictedException(string message)
-        : base(message)
-    {
-    }
+        : base(message) { }
 
     /// <inheritdoc />
     public ConflictedException(string message, Exception innerException)
-        : base(message, innerException)
-    {
-    }
+        : base(message, innerException) { }
 
     public override string Rfc7807Title => "Conflicted";
-    
+
     public override int Rfc7807Status => 409;
 }

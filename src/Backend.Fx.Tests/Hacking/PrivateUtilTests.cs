@@ -1,5 +1,6 @@
 using System;
 using Backend.Fx.Hacking;
+using JetBrains.Annotations;
 using Xunit;
 
 namespace Backend.Fx.Tests.Hacking;
@@ -8,19 +9,19 @@ public class PrivateUtilTests
 {
     private sealed class WithPrivateSetter
     {
-        public string Value { get; private set; } = "initial";
+        public string Value { get; [UsedImplicitly] private set; } = "initial";
     }
 
+    [UsedImplicitly]
     private sealed class WithPrivateConstructor
     {
         private WithPrivateConstructor() => Value = "constructed";
+
         public string Value { get; }
     }
 
-    private sealed class WithoutPrivateConstructor
-    {
-        public WithoutPrivateConstructor() { }
-    }
+    [UsedImplicitly]
+    private sealed class WithoutPrivateConstructor;
 
     [Fact]
     public void SetPrivateSetsPropertyWithPrivateSetter()
@@ -43,7 +44,8 @@ public class PrivateUtilTests
     [Fact]
     public void CreateInstanceFromPrivateDefaultConstructorInvokesPrivateConstructor()
     {
-        var instance = PrivateUtil.CreateInstanceFromPrivateDefaultConstructor<WithPrivateConstructor>();
+        var instance =
+            PrivateUtil.CreateInstanceFromPrivateDefaultConstructor<WithPrivateConstructor>();
 
         Assert.Equal("constructed", instance.Value);
     }
@@ -52,6 +54,7 @@ public class PrivateUtilTests
     public void CreateInstanceFromPrivateDefaultConstructorThrowsWhenNoneExists()
     {
         Assert.Throws<InvalidOperationException>(
-            PrivateUtil.CreateInstanceFromPrivateDefaultConstructor<WithoutPrivateConstructor>);
+            PrivateUtil.CreateInstanceFromPrivateDefaultConstructor<WithoutPrivateConstructor>
+        );
     }
 }

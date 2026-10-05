@@ -18,7 +18,7 @@ public static class BytesEx
 
     // ReSharper disable InconsistentNaming
     public static long TB(this int tb) => tb.EnsurePositive() * OneTeraByte;
-    
+
     public static long GB(this int gb) => gb.EnsurePositive() * OneGigaByte;
 
     public static int MB(this int mb) => mb.EnsurePositive() * OneMegaByte;
@@ -32,17 +32,23 @@ public static class BytesEx
     public static int MiB(this int mb) => mb.EnsurePositive() * OneMebiByte;
 
     public static int KiB(this int kb) => kb.EnsurePositive() * OneKibiByte;
+
     // ReSharper restore InconsistentNaming
 
-    public static string ToHumanReadable(this short size) => ((long)size.EnsurePositive()).ToHumanReadable();
+    public static string ToHumanReadable(this short size) =>
+        ((long)size.EnsurePositive()).ToHumanReadable();
 
-    public static string ToHumanReadable(this ushort size) => ((long)size.EnsurePositive()).ToHumanReadable();
+    public static string ToHumanReadable(this ushort size) =>
+        ((long)size.EnsurePositive()).ToHumanReadable();
 
-    public static string ToHumanReadable(this int size) => ((long)size.EnsurePositive()).ToHumanReadable();
+    public static string ToHumanReadable(this int size) =>
+        ((long)size.EnsurePositive()).ToHumanReadable();
 
-    public static string ToHumanReadable(this uint size) => ((long)size.EnsurePositive()).ToHumanReadable();
+    public static string ToHumanReadable(this uint size) =>
+        ((long)size.EnsurePositive()).ToHumanReadable();
 
-    public static string ToHumanReadable(this long size) => ((ulong)size.EnsurePositive()).ToHumanReadable();
+    public static string ToHumanReadable(this long size) =>
+        ((ulong)size.EnsurePositive()).ToHumanReadable();
 
     public static string ToHumanReadable(this ulong size)
     {
@@ -60,8 +66,9 @@ public static class BytesEx
                 return $"{size} B";
         }
     }
-    
-    private static T EnsurePositive<T>(this T size) where T : struct, IComparable<T>
+
+    private static T EnsurePositive<T>(this T size)
+        where T : struct, IComparable<T>
     {
         if (size.CompareTo(default) < 0)
         {
