@@ -29,6 +29,6 @@
       Version="10.0.403"
       PrivateAssets="All"
     />
-    <PackageReference Include="NodaTime" Version="3.3.6" />
+    <PackageReference Include="NodaTime" Version="3.3.7" />
   </ItemGroup>
 </Project>
