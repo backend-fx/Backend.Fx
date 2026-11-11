@@ -26,7 +26,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.14" />
     <PackageReference
       Include="Microsoft.SourceLink.GitHub"
-      Version="10.0.403"
+      Version="11.0.100"
       PrivateAssets="All"
     />
     <PackageReference Include="NodaTime" Version="3.3.7" />
