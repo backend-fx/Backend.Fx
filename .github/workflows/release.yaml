@@ -34,7 +34,6 @@ jobs:
             -p:Version="${VERSION#v}"
           dotnet nuget push "artifacts/*.nupkg" \
             --source https://api.nuget.org/v3/index.json \
-            --api-key "$NUGET_APIKEY" \
             --skip-duplicate
         env:
           VERSION: ${{ github.ref_name }}
