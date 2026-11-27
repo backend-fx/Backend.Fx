@@ -12,7 +12,7 @@ public class TheNotFoundException
         var exception = new NotFoundException();
         Assert.Null(exception.EntityName);
     }
-        
+
     [Fact]
     public void FillsNameAndIdProperties()
     {
@@ -20,7 +20,6 @@ public class TheNotFoundException
         Assert.Equal("SomeEntity", exception.EntityName);
         Assert.Equal(4711, exception.Id);
     }
-
 
     [UsedImplicitly]
     private class SomeEntity(int id)

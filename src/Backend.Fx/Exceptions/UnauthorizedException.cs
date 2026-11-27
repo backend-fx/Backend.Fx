@@ -7,23 +7,17 @@ namespace Backend.Fx.Exceptions;
 public class UnauthorizedException : ClientException
 {
     public UnauthorizedException()
-        : base("Unauthorized")
-    {
-    }
+        : base("Unauthorized") { }
 
     /// <inheritdoc />
     public UnauthorizedException(string message)
-        : base(message)
-    {
-    }
+        : base(message) { }
 
     /// <inheritdoc />
     public UnauthorizedException(string message, Exception innerException)
-        : base(message, innerException)
-    {
-    }
+        : base(message, innerException) { }
 
     public override string Rfc7807Title => "Unauthorized";
-    
+
     public override int Rfc7807Status => 401;
 }

@@ -17,9 +17,11 @@ public class TolerantDateTimeOffsetComparer : IEqualityComparer<DateTimeOffset?>
 
     public bool Equals(DateTimeOffset? x, DateTimeOffset? y)
     {
-        if (x == null && y == null) return true;
+        if (x == null && y == null)
+            return true;
 
-        if (x == null || y == null) return false;
+        if (x == null || y == null)
+            return false;
 
         return Math.Abs((x.Value - y.Value).TotalMilliseconds) < _epsilon.TotalMilliseconds;
     }
@@ -42,9 +44,11 @@ public class TolerantDateTimeComparer : IEqualityComparer<DateTime?>
 
     public bool Equals(DateTime? x, DateTime? y)
     {
-        if (x == null && y == null) return true;
+        if (x == null && y == null)
+            return true;
 
-        if (x == null || y == null) return false;
+        if (x == null || y == null)
+            return false;
 
         return Math.Abs((x.Value - y.Value).TotalMilliseconds) < _epsilon.TotalMilliseconds;
     }
@@ -54,7 +58,7 @@ public class TolerantDateTimeComparer : IEqualityComparer<DateTime?>
         return obj?.GetHashCode() ?? 0;
     }
 }
-    
+
 [PublicAPI]
 public class TolerantInstantComparer : IEqualityComparer<Instant?>
 {
@@ -67,9 +71,11 @@ public class TolerantInstantComparer : IEqualityComparer<Instant?>
 
     public bool Equals(Instant? x, Instant? y)
     {
-        if (x == null && y == null) return true;
+        if (x == null && y == null)
+            return true;
 
-        if (x == null || y == null) return false;
+        if (x == null || y == null)
+            return false;
 
         return Math.Abs((x.Value - y.Value).TotalMilliseconds) < _epsilon.TotalMilliseconds;
     }

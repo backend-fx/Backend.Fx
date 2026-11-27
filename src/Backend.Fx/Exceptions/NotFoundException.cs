@@ -10,9 +10,7 @@ public class NotFoundException : ClientException
     public object? Id { get; }
 
     public NotFoundException()
-        : base("Not found.")
-    {
-    }
+        : base("Not found.") { }
 
     public NotFoundException(string entityName, object id)
         : base($"No {entityName}[{id}] found.")
@@ -26,20 +24,18 @@ public class NotFoundException : ClientException
     /// <summary>
     /// Used to build a <see cref="NotFoundException"/> with multiple possible error messages. The builder will throw on disposal
     /// when at least one error was added. Using the AddIf methods is quite comfortable when there are several criteria to be validated
-    /// before executing a business case. 
+    /// before executing a business case.
     /// </summary>
-    public new static IExceptionBuilder UseBuilder()
+    public static new IExceptionBuilder UseBuilder()
     {
         return new ExceptionBuilder<NotFoundException>();
     }
-    
+
     public override int Rfc7807Status => 404;
 }
 
 public class NotFoundException<TEntity> : NotFoundException
 {
     public NotFoundException(object id)
-        : base(typeof(TEntity).Name, id)
-    {
-    }
+        : base(typeof(TEntity).Name, id) { }
 }

@@ -41,7 +41,8 @@ public class AsyncHelperTests
             {
                 await Task.Delay(10);
                 throw new InvalidOperationException("boom");
-            }));
+            })
+        );
 
         Assert.IsType<InvalidOperationException>(exception.InnerException);
         Assert.Equal("boom", exception.InnerException!.Message);

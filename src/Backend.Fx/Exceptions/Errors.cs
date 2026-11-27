@@ -17,19 +17,18 @@ public class Errors : IReadOnlyDictionary<string, string[]>
     private readonly IDictionary<string, List<string>> _dictionaryImplementation =
         new Dictionary<string, List<string>>();
 
-    public Errors()
-    { }
+    public Errors() { }
 
-    public Errors(IDictionary<string, string[]> dictionary) : this(null, dictionary)
-    { }
-        
+    public Errors(IDictionary<string, string[]> dictionary)
+        : this(null, dictionary) { }
+
     public Errors(string? genericError, IDictionary<string, string[]>? dictionary = null)
     {
         if (genericError != null)
         {
             Add(genericError);
         }
-            
+
         if (dictionary != null)
         {
             foreach (var kvp in dictionary)
@@ -38,7 +37,7 @@ public class Errors : IReadOnlyDictionary<string, string[]>
             }
         }
     }
-        
+
     public bool ContainsKey(string key)
     {
         return _dictionaryImplementation.ContainsKey(key);
@@ -106,7 +105,8 @@ public class Errors : IReadOnlyDictionary<string, string[]>
     public IEnumerator<KeyValuePair<string, string[]>> GetEnumerator()
     {
         return _dictionaryImplementation
-            .Select(kvp => new KeyValuePair<string, string[]>(kvp.Key, kvp.Value.ToArray())).GetEnumerator();
+            .Select(kvp => new KeyValuePair<string, string[]>(kvp.Key, kvp.Value.ToArray()))
+            .GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
@@ -126,7 +126,7 @@ public class Errors : IReadOnlyDictionary<string, string[]>
         foreach (var keyValuePair in this)
         {
             b.Append("  ");
-            b.Append(keyValuePair.Key == GenericErrorKey ? "(generic)": keyValuePair.Key);
+            b.Append(keyValuePair.Key == GenericErrorKey ? "(generic)" : keyValuePair.Key);
             b.AppendLine();
             for (var index = 0; index < keyValuePair.Value.Length; index++)
             {

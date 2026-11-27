@@ -51,9 +51,7 @@ public static class Log
 
     private class MaybeAsyncLocalLoggerFactory : ILoggerFactory
     {
-        public void Dispose()
-        {
-        }
+        public void Dispose() { }
 
         public ILogger CreateLogger(string categoryName)
         {

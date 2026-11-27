@@ -10,12 +10,14 @@ public class ExceptionLoggersTests
     private sealed class RecordingExceptionLogger : IExceptionLogger
     {
         public Exception? Logged { get; private set; }
+
         public void LogException(Exception exception) => Logged = exception;
     }
 
     private sealed class ThrowingExceptionLogger : IExceptionLogger
     {
-        public void LogException(Exception exception) => throw new InvalidOperationException("inner logger failed");
+        public void LogException(Exception exception) =>
+            throw new InvalidOperationException("inner logger failed");
     }
 
     [Fact]

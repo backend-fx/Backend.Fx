@@ -11,12 +11,12 @@ public class DebugExceptionLoggerTests
     private readonly DebugExceptionLogger _sut = new();
 
     [Fact]
-    public void LogsClientExceptionWithoutThrowing()
-        => _sut.LogException(new ClientException("client"));
+    public void LogsClientExceptionWithoutThrowing() =>
+        _sut.LogException(new ClientException("client"));
 
     [Fact]
-    public void LogsGenericExceptionWithoutThrowing()
-        => _sut.LogException(new InvalidOperationException("server"));
+    public void LogsGenericExceptionWithoutThrowing() =>
+        _sut.LogException(new InvalidOperationException("server"));
 }
 
 public class ExceptionLoggerTests

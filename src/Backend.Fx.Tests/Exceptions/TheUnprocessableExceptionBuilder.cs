@@ -74,6 +74,7 @@ public class TheUnprocessableExceptionBuilder
     [UsedImplicitly]
     private class SomeEntity
     {
-        [UsedImplicitly] public int Id { get; }
+        [UsedImplicitly]
+        public int Id { get; }
     }
 }

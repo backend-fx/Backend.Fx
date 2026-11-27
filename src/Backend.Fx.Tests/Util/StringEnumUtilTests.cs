@@ -10,22 +10,22 @@ public class StringEnumUtilTests
     {
         Red,
         Green,
-        Blue
+        Blue,
     }
 
     [Theory]
     [InlineData("Red", Color.Red)]
     [InlineData("Green", Color.Green)]
     [InlineData("Blue", Color.Blue)]
-    public void ParsesExactName(string value, Color expected)
-        => Assert.Equal(expected, value.Parse<Color>());
+    public void ParsesExactName(string value, Color expected) =>
+        Assert.Equal(expected, value.Parse<Color>());
 
     [Theory]
     [InlineData("red", Color.Red)]
     [InlineData("GREEN", Color.Green)]
     [InlineData("bLuE", Color.Blue)]
-    public void ParsesCaseInsensitively(string value, Color expected)
-        => Assert.Equal(expected, value.Parse<Color>());
+    public void ParsesCaseInsensitively(string value, Color expected) =>
+        Assert.Equal(expected, value.Parse<Color>());
 
     [Fact]
     public void ThrowsArgumentExceptionForInvalidValue()

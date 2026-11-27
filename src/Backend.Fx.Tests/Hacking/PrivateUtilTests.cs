@@ -16,6 +16,7 @@ public class PrivateUtilTests
     private sealed class WithPrivateConstructor
     {
         private WithPrivateConstructor() => Value = "constructed";
+
         public string Value { get; }
     }
 
@@ -43,7 +44,8 @@ public class PrivateUtilTests
     [Fact]
     public void CreateInstanceFromPrivateDefaultConstructorInvokesPrivateConstructor()
     {
-        var instance = PrivateUtil.CreateInstanceFromPrivateDefaultConstructor<WithPrivateConstructor>();
+        var instance =
+            PrivateUtil.CreateInstanceFromPrivateDefaultConstructor<WithPrivateConstructor>();
 
         Assert.Equal("constructed", instance.Value);
     }
@@ -52,6 +54,7 @@ public class PrivateUtilTests
     public void CreateInstanceFromPrivateDefaultConstructorThrowsWhenNoneExists()
     {
         Assert.Throws<InvalidOperationException>(
-            PrivateUtil.CreateInstanceFromPrivateDefaultConstructor<WithoutPrivateConstructor>);
+            PrivateUtil.CreateInstanceFromPrivateDefaultConstructor<WithoutPrivateConstructor>
+        );
     }
 }
